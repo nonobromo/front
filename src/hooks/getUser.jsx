@@ -7,6 +7,7 @@ function useUser(id) {
   const { user } = useAuth();
 
   useEffect(() => {
+    console.log(userInfo)
     const getUserInfo = async () => {
       try {
         if (!user) return;

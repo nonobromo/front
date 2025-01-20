@@ -1,11 +1,12 @@
 import { Box, Container, TextField, Typography } from "@mui/material";
 import useUser from "../hooks/getUser";
-import guidesService from "../services/guidesService";
+import {getGuides} from "../services/guidesService";
 import { useEffect, useState } from "react";
 import Categoires from "../components/categories";
 import GuidePreview from "../components/common/guidePreview";
+import { useAuth } from "../context/auth.context";
 function MainPage() {
-  const { userInfo } = useUser();
+
   const [guides, setGuides] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -14,7 +15,7 @@ function MainPage() {
     : guides;
   useEffect(() => {
     const getCard = async () => {
-      const result = await guidesService.getGuides();
+      const result = await getGuides();
       setGuides(result.data);
     };
     getCard();
@@ -25,12 +26,12 @@ function MainPage() {
       <Typography fontSize="4rem" variant="h1" mt={4}>
         Welcome to Guidify!
       </Typography>
-      {userInfo && (
+      {/* {userInfo && (
         <Typography fontSize="2rem" variant="h2" mt={4}>
           What will you need help with today{" "}
-          {userInfo?.name.charAt(0).toUpperCase() + userInfo?.name.slice(1)}?
+          {}?
         </Typography>
-      )}
+      )} */}
 
       <Categoires />
       <TextField
@@ -43,7 +44,7 @@ function MainPage() {
 
       <Box mt={4}>
         {(search ? filteredCards : guides).map((guide) => {
-          return <GuidePreview guide={guide} />;
+          return <GuidePreview guide={guide} key={guide._id} />;
         })}
       </Box>
     </Container>

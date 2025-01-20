@@ -10,6 +10,7 @@ import MainPage from "./pages/mainPage";
 import NavbarTest from "./components/navbarTest";
 import Logout from "./pages/logout";
 import About from "./pages/about";
+import GuidePage from "./components/common/guidePage";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-out" element={<Logout />} />
         <Route path="/about" element={<About />} />
+        <Route path="/guidePage/:id" element={<GuidePage/>}/>
       </Routes>
     </Box>
   );

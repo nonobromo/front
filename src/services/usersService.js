@@ -31,17 +31,25 @@ export async function signIn(credentials) {
 export function getUser() {
   try {
     const token = getJWT();
-    const { _id, biz } = jwtDecode(token);
-    return { _id, biz };
+    const { _id, creator, isAdmin } = jwtDecode(token);
+    return { _id,  creator, isAdmin };
   } catch {
     return null;
   }
 }
 
-export async function getUserData() {
-  const { data } = await httpServices.get(`/users/me`, getJWT());
-  return data;
+getUser()
+
+export async function getUserData(id) {
+  const  userData  = await httpServices.get(`/users/${id}`, getJWT())
+  return userData;
 }
+
+getUserData("678935ef923609033018e158").then((e) =>{
+  console.log(e)
+}).catch((err) =>{
+  console.log(err)
+})
 
 export function logOut() {
   setToken(null);
