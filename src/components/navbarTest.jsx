@@ -15,6 +15,7 @@ export default function NavbarTest() {
         WebkitFlexGrow: 0,
         display: "flex",
         justifyContent: "space-between",
+        backgroundColor: "green"
       }}
     >
       <AppBar
@@ -40,6 +41,9 @@ export default function NavbarTest() {
 
             <NavLink to="/About">
               <Button color="inherit">About</Button>
+            </NavLink>
+            <NavLink to="/createGuide">
+              <Button color="inherit">Create Guide</Button>
             </NavLink>
           </Box>
 

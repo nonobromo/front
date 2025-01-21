@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   Typography,
   Container,
+  Input,
 } from "@mui/material";
 
 import { createUser } from "../services/usersService";
@@ -18,17 +19,27 @@ const SignUp = () => {
   const navigate = useNavigate();
   const userForm = useFormik({
     initialValues: {
-      name: "",
+      name: {
+        first: "",
+        last: ""
+      },
       email: "",
+      phone: "",
       password: "",
-      biz: false,
+      picture: null,
+      creator: false,
     },
     validate(values) {
       const schema = Joi.object({
-        name: Joi.string().min(2).max(255).required().label("Name"),
-        email: Joi.string().min(6).max(255).required().label("email"),
-        password: Joi.string().min(6).max(255).required().label("Password"),
-        biz: Joi.boolean().label("Business"),
+        name: Joi.object({
+          first: Joi.string().min(2).max(255).required().label("First Name"),
+          last: Joi.string().min(2).max(255).required().label("Last Name")
+        }).required(),
+        email: Joi.string().min(6).max(255).required().label("Email"),
+        phone: Joi.string().min(9).max(11).required().label("Phone"),
+        password: Joi.string().min(8).required().label("Password"),
+        picture: Joi.string().allow("").label("Picture"),
+        creator: Joi.boolean().default(false).label("Creator")
       });
 
       const { error } = schema.validate(values, { abortEarly: false });
@@ -92,27 +103,55 @@ const SignUp = () => {
             Create User
           </Typography>
           <TextField
-            {...userForm.getFieldProps("name")}
+            {...userForm.getFieldProps("name.first")}
             type="text"
-            label="Name"
+            label="First Name"
             required
+            error={userForm.touched.name?.first && userForm.errors["name.first"]}
+            helperText={userForm.touched.name?.first && userForm.errors["name.first"]}
+          />
+
+          <TextField
+            {...userForm.getFieldProps("name.last")}
+            type="text"
+            label="Last Name"
+            required
+            error={userForm.touched.name?.last && userForm.errors["name.last"]}
+            helperText={userForm.touched.name?.last && userForm.errors["name.last"]}
           />
           <TextField
             {...userForm.getFieldProps("email")}
             type="email"
             label="Email"
             required
+            error={userForm.touched.email && userForm.errors["email"]}
+            helperText={userForm.touched.email && userForm.errors["email"]}
+          />
+          <TextField
+            {...userForm.getFieldProps("phone")}
+            type="text"
+            label="Phone"
+            required
+            error={userForm.touched.phone && userForm.errors["phone"]}
+            helperText={userForm.touched.phone && userForm.errors["phone"]}
           />
           <TextField
             {...userForm.getFieldProps("password")}
             type="password"
             label="Password"
             required
+            error={userForm.touched.password && userForm.errors["password"]}
+            helperText={userForm.touched.password && userForm.errors["password"]}
+          />
+          <Input
+            {...userForm.getFieldProps("picture")}
+            type="file"
+            label="Picture"
           />
           <FormControlLabel
             control={<Checkbox />}
-            label="Business"
-            {...userForm.getFieldProps("biz")}
+            label="Creator"
+            {...userForm.getFieldProps("creator")}
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Submit

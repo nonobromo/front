@@ -45,11 +45,6 @@ export async function getUserData(id) {
   return userData;
 }
 
-getUserData("678935ef923609033018e158").then((e) =>{
-  console.log(e)
-}).catch((err) =>{
-  console.log(err)
-})
 
 export function logOut() {
   setToken(null);

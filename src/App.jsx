@@ -11,6 +11,7 @@ import NavbarTest from "./components/navbarTest";
 import Logout from "./pages/logout";
 import About from "./pages/about";
 import GuidePage from "./components/common/guidePage";
+import CreateNewGuide from "./pages/uploadGuide";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/sign-out" element={<Logout />} />
         <Route path="/about" element={<About />} />
         <Route path="/guidePage/:id" element={<GuidePage/>}/>
+        <Route path="/createGuide" element={<CreateNewGuide/>}/>
       </Routes>
     </Box>
   );
