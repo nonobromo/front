@@ -1,31 +1,70 @@
-import { Box, Container, Input, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import GuideStep from "../components/common/guideStep";
 
-function CreateNewGuide(){
-    return(
-     <Container maxWidth="sm" sx={{border: "1px solid black", minHeight: "100vh"}}>
-        <Typography fontSize={36} mt={4} textAlign={"center"}>
-            Create A Guide
-        </Typography>
+function CreateNewGuide() {
+  const [fileInputs, setFileInputs] = useState([]);
 
-        <Box sx={{marginTop: 4, border: "1px solid black", display: "flex", flexDirection: "column", gap: 4, padding: 5}}>
-        <TextField label="Guide Title"/>
-        <TextField label="Guide Description"/>
+  const addFileInput = () => {
+    setFileInputs([...fileInputs, `file-${fileInputs.length}`]);
+  };
 
-        <InputLabel>Select Cateogires</InputLabel>
+  return (
+    <Container maxWidth="sm" sx={{ minHeight: "100vh" }}>
+      <Typography fontSize={36} mt={4} textAlign={"center"}>
+        Create A Guide
+      </Typography>
+
+      <Box
+        sx={{
+          marginTop: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 4,
+          padding: 5,
+        }}
+      >
+        <TextField label="Guide Title" />
+        <TextField label="Guide Description" />
+
+        <InputLabel>Select Categories</InputLabel>
         <Select defaultValue="" required>
-        <MenuItem value="" disabled>Choose A Category</MenuItem>
-        <MenuItem value="option1">Internet</MenuItem>
-        <MenuItem value="option2">Printers</MenuItem>
-        <MenuItem value="option3">Word</MenuItem>
-        <MenuItem value="option3">Excel</MenuItem>
-        <MenuItem value="option3">Outlook</MenuItem>
-        <MenuItem value="option3">Misc</MenuItem>
+          <MenuItem value="" disabled>
+            Choose A Category
+          </MenuItem>
+          <MenuItem value="internet">Internet</MenuItem>
+          <MenuItem value="printers">Printers</MenuItem>
+          <MenuItem value="word">Word</MenuItem>
+          <MenuItem value="excel">Excel</MenuItem>
+          <MenuItem value="outlook">Outlook</MenuItem>
+          <MenuItem value="misc">Misc</MenuItem>
         </Select>
 
-        <Input type="file"/>
+        <Box>
+          <GuideStep />
+          <GuideStep />
         </Box>
-     </Container>  
-    )
+
+        {fileInputs.map((input, index) => (
+          <Input key={input} type="file" />
+        ))}
+
+        <Button variant="contained" onClick={addFileInput}>
+          Add Another File
+        </Button>
+      </Box>
+    </Container>
+  );
 }
 
-export default CreateNewGuide
+export default CreateNewGuide;
