@@ -7,13 +7,12 @@ function useUser(id) {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log(userInfo)
     const getUserInfo = async () => {
       try {
         if (!user) return;
 
         const userData = await getUserData(id);
-        setUserInfo(userData);
+        setUserInfo(userData.data);
       } catch (err) {
         console.error(err);
       }

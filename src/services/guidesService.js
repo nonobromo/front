@@ -8,3 +8,7 @@ export function getGuides() {
   return httpServices.get("/guides/all");
 }
 
+export function uploadGuide(values){
+  return httpServices.post("/guides/", values)
+}
+

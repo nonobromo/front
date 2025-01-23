@@ -5,9 +5,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/auth.context";
+import useUser from "../hooks/getUser";
+import { Avatar } from "@mui/material";
 
 export default function NavbarTest() {
   const { user } = useAuth();
+  const {userInfo} = useUser(user?._id)
   return (
     <Box
       sx={{
@@ -47,11 +50,21 @@ export default function NavbarTest() {
             </NavLink>
           </Box>
 
-          <Box>
+          <Box sx={{display: "flex", alignItems: "center"}}>
             {user ? (
+              <>
               <NavLink to="/sign-out">
                 <Button color="inherit">Log out</Button>
               </NavLink>
+
+              <NavLink to="/userInfo/">
+              <Avatar 
+              alt="User Name" 
+              src={userInfo?.picture} 
+              sx={{ width: 50, height: 50,objectFit: 'cover' }}
+              />
+              </NavLink>
+              </>
             ) : (
               <>
                 <NavLink to="/sign-in">
