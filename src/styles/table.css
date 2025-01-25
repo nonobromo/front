@@ -1,0 +1,46 @@
+.table-contents {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items: center;
+  border-bottom: 1px solid #dbdbdb;
+  padding-bottom: 15px;
+  margin-top: 15px;
+}
+
+.table-title {
+  grid-column: 1/3;
+}
+
+.table-data {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items: center;
+  padding-bottom: 15px;
+  margin-top: 15px;
+}
+
+.table-data-title {
+  grid-column: 1/3;
+}
+
+@media (max-width: 768px) {
+  .hide-on-small {
+    display: none;
+  }
+
+  .table-contents {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .table-date-due {
+    grid-column: 4/5;
+  }
+
+  .table-data {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .table-data-title {
+    grid-column: 1/3;
+  }
+}

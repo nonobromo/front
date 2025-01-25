@@ -1,52 +1,36 @@
-import { Box, Container, TextField, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
+import FilterTab from "../components/filterTab";
+import TableHeaders from "../components/common/tableHeaders";
+import TaskItem from "../components/common/taskItem";
+import useAllTasks from "../hooks/getTasks";
 import useUser from "../hooks/getUser";
-import {getGuides} from "../services/guidesService";
-import { useEffect, useState } from "react";
-import Categoires from "../components/categories";
-import GuidePreview from "../components/common/guidePreview";
 import { useAuth } from "../context/auth.context";
+
 function MainPage() {
-
-  const [guides, setGuides] = useState([]);
-  const [search, setSearch] = useState("");
-
-  const filteredCards = search
-    ? guides.filter((guide) => guide.title.includes(search.toLowerCase()))
-    : guides;
-  useEffect(() => {
-    const getCard = async () => {
-      const result = await getGuides();
-      setGuides(result.data);
-    };
-    getCard();
-  }, []);
-
+  const { allTasks } = useAllTasks();
+  const { user } = useAuth();
+  const { userInfo } = useUser(user?._id);
+  //I need to fix  the tasks table and move everything from the title after to the right
   return (
-    <Container maxWidth="lg" sx={{ minHeight: "100%" }}>
+    <Container
+      maxWidth="lg"
+      sx={{ minHeight: "100%", display: "flex", flexDirection: "column" }}
+    >
       <Typography fontSize="4rem" variant="h1" mt={4}>
-        Welcome to Guidify!
+        Its time to do some Basic
       </Typography>
-      {/* {userInfo && (
-        <Typography fontSize="2rem" variant="h2" mt={4}>
-          What will you need help with today{" "}
-          {}?
-        </Typography>
-      )} */}
 
-      <Categoires />
-      <TextField
-        id="filled-basic"
-        label="I Need Help With:"
-        variant="filled"
-        sx={{ mt: "40px", width: "100%" }}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <FilterTab />
 
-      <Box mt={4}>
-        {(search ? filteredCards : guides).map((guide) => {
-          return <GuidePreview guide={guide} key={guide._id} />;
-        })}
+      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <TableHeaders />
       </Box>
+
+      {allTasks.length <= 0
+        ? "No Tasks to show"
+        : allTasks.map((task) => {
+            return <TaskItem taskData={task} key={task._id} />;
+          })}
     </Container>
   );
 }

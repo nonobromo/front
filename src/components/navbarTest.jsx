@@ -7,10 +7,22 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/auth.context";
 import useUser from "../hooks/getUser";
 import { Avatar } from "@mui/material";
+import { useState } from "react";
 
 export default function NavbarTest() {
   const { user } = useAuth();
-  const {userInfo} = useUser(user?._id)
+  const { userInfo } = useUser(user?._id);
+  const [pictureMenu, openPictureMenu] = useState(false);
+  const [hamburger, setHamburger] = useState(false);
+
+  const handleOpen = () => {
+    openPictureMenu((perv) => !perv);
+  };
+
+  const openHamburgerMenu = () => {
+    setHamburger((perv) => !perv);
+  };
+
   return (
     <Box
       sx={{
@@ -18,7 +30,7 @@ export default function NavbarTest() {
         WebkitFlexGrow: 0,
         display: "flex",
         justifyContent: "space-between",
-        backgroundColor: "green"
+        backgroundColor: "green",
       }}
     >
       <AppBar
@@ -32,39 +44,54 @@ export default function NavbarTest() {
           }}
         >
           <Box display="flex" alignItems="center">
+            <div
+              className={`hamburger ${hamburger ? "active" : ""}`}
+              onClick={openHamburgerMenu}
+            >
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </div>
             <Link to="/" className="navbar-brand">
               <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-                Guidify
+                Basic
               </Typography>
             </Link>
+            <div className={`navbar-content ${hamburger ? "active" : ""}`}>
+              <NavLink to="/">
+                <Button color="inherit">Home</Button>
+              </NavLink>
 
-            <NavLink to="/">
-              <Button color="inherit">Home</Button>
-            </NavLink>
-
-            <NavLink to="/About">
-              <Button color="inherit">About</Button>
-            </NavLink>
-            <NavLink to="/createGuide">
-              <Button color="inherit">Create Guide</Button>
-            </NavLink>
+              <NavLink to="/About">
+                <Button color="inherit">About</Button>
+              </NavLink>
+              <NavLink to="/createGuide">
+                <Button color="inherit">Create Task</Button>
+              </NavLink>
+            </div>
           </Box>
 
-          <Box sx={{display: "flex", alignItems: "center"}}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             {user ? (
-              <>
-              <NavLink to="/sign-out">
-                <Button color="inherit">Log out</Button>
-              </NavLink>
-
-              <NavLink to="/userInfo/">
-              <Avatar 
-              alt="User Name" 
-              src={userInfo?.picture} 
-              sx={{ width: 50, height: 50,objectFit: 'cover' }}
-              />
-              </NavLink>
-              </>
+              <div onMouseEnter={handleOpen} onMouseLeave={handleOpen}>
+                <Avatar
+                  alt="User Name"
+                  src={userInfo?.picture}
+                  sx={{ width: 50, height: 50, objectFit: "cover" }}
+                />
+                <ul className={`picture-menu ${pictureMenu ? "open" : ""}`}>
+                  <li>
+                    <NavLink to="/sign-out" className="picture-menu-li">
+                      Log Out
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/userInfo" className="picture-menu-li">
+                      My Info
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
             ) : (
               <>
                 <NavLink to="/sign-in">

@@ -1,0 +1,94 @@
+.task-filter-btn {
+  padding: 12px 8px 12px 8px;
+  background-color: #0059ff;
+  border: none;
+  border-radius: 16px;
+  color: white;
+  font-weight: 200;
+  height: 40px;
+}
+
+.buttons-filter-area {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.buttons-area {
+  display: flex;
+  gap: 16px;
+}
+
+.search-box {
+  background-color: #f2f2f3;
+  border-radius: 16px;
+  padding: 8px 16px 8px 16px;
+  border: none;
+  text-indent: 24px;
+  background-image: url("https://www.svgrepo.com/show/157848/search.svg");
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  background-size: 16px 16px;
+  height: 40px;
+  width: 300px;
+}
+
+input.search-box::placeholder {
+  margin-right: 16px;
+}
+
+input.search-box::placeholder {
+  margin-right: 16px;
+}
+
+.picture-menu {
+  position: absolute;
+  width: 195px;
+  height: 60px;
+  background-color: #1976d2;
+  border-radius: 4px;
+  list-style-type: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  margin-left: -150px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.picture-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.picture-menu-li {
+  color: white;
+  text-decoration: none;
+  margin-left: 12px;
+  margin-top: 20px;
+  padding: 5px;
+}
+
+.picture-menu-li:hover {
+  background-color: #c5c5c5;
+  transition: 400ms;
+}
+
+@media screen and (max-width: 768px) {
+  .task-filter-btn {
+    padding: 8px 6px 8px 6px;
+  }
+
+  .search-box {
+    width: 200px;
+  }
+
+  .buttons-filter-area {
+    flex-direction: column-reverse;
+  }
+}
