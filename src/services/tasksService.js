@@ -16,8 +16,8 @@ export function getAllTasks() {
   return httpServices.get("/tasks/allTasks");
 }
 
-export function getMyTasks() {
-  return httpServices.get("/tasks/myTasks");
+export function getMyTasks(id) {
+  return httpServices.get(`/tasks/myTasks/${id}`);
 }
 
 export function uploadTask(values) {

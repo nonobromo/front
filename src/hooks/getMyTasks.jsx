@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getAllTasks } from "../services/tasksService";
+import { getAllTasks, getMyTasks } from "../services/tasksService";
 import { useAuth } from "../context/auth.context";
 
-function useAllTasks() {
-  const [allTasks, setAllTasks] = useState([]);
+function useAllMyTasks(id) {
+  const [allMyTasks, setMyAllTasks] = useState([]);
   const { user } = useAuth();
   useEffect(() => {
     const fetchAllTasks = async () => {
@@ -12,15 +12,15 @@ function useAllTasks() {
       }
 
       try {
-        const allTasksData = await getAllTasks();
-        setAllTasks(allTasksData.data);
+        const allMyTasksData = await getMyTasks(id);
+        setMyAllTasks(allMyTasksData.data);
       } catch (err) {
         console.error(err);
       }
     };
     fetchAllTasks();
-  }, []);
-  return { allTasks };
+  }, [user, id]);
+  return { allMyTasks };
 }
 
-export default useAllTasks;
+export default useAllMyTasks;

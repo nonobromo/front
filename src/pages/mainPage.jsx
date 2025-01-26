@@ -5,11 +5,25 @@ import TaskItem from "../components/common/taskItem";
 import useAllTasks from "../hooks/getTasks";
 import useUser from "../hooks/getUser";
 import { useAuth } from "../context/auth.context";
+import { useState } from "react";
+import useAllMyTasks from "../hooks/getMyTasks";
 
 function MainPage() {
   const { allTasks } = useAllTasks();
   const { user } = useAuth();
+  const { allMyTasks } = useAllMyTasks(user?._id);
   const { userInfo } = useUser(user?._id);
+  const [taskState, setTaskState] = useState("All Tasks");
+
+  let displayedTasks = [];
+
+  if (taskState === "My Tasks") {
+    displayedTasks = allMyTasks;
+  } else if (taskState === "Unassigned Tasks") {
+    displayedTasks = allTasks.filter((task) => !task.assignedTo);
+  } else {
+    displayedTasks = allTasks;
+  }
 
   return (
     <Container
@@ -20,17 +34,17 @@ function MainPage() {
         Its time to do some Basic
       </Typography>
 
-      <FilterTab />
+      <FilterTab taskState={taskState} setTaskState={setTaskState} />
 
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <TableHeaders />
       </Box>
 
-      {user && allTasks.length <= 0
-        ? "No Tasks to show"
-        : allTasks.map((task) => {
-            return <TaskItem taskData={task} key={task._id} />;
-          })}
+      {user && displayedTasks.length > 0
+        ? displayedTasks.map((task) => (
+            <TaskItem taskData={task} key={task._id} />
+          ))
+        : "No Tasks to show"}
     </Container>
   );
 }

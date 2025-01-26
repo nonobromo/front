@@ -1,5 +1,6 @@
 import { Box, Container } from "@mui/material";
 import Priority from "./priority";
+import useUser from "../../hooks/getUser";
 
 function TaskItem({
   taskData: {
@@ -12,15 +13,13 @@ function TaskItem({
     category,
   },
 }) {
-  console.log(title.length);
-
   return (
     <Container maxWidth="lg">
       <Box sx={{ maxWidth: "lg", width: "100%" }}>
         <div className="table-data">
           <span className="table-data-title">{title}</span>
           <span className="hide-on-small">Noam</span>
-          <span></span>
+          <span>{assignedTo}</span>
           <span className="hide-on-small">{dateCreated}</span>
           <span className="table-date-due">{dueDate}</span>
           <span className="hide-on-small">{category}</span>

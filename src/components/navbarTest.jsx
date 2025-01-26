@@ -65,9 +65,11 @@ export default function NavbarTest() {
               <NavLink to="/About">
                 <Button color="inherit">About</Button>
               </NavLink>
-              <NavLink to="/createGuide">
-                <Button color="inherit">Create Task</Button>
-              </NavLink>
+              {user && userInfo?.shiftLeader && (
+                <NavLink to="/createGuide">
+                  <Button color="inherit">Create Task</Button>
+                </NavLink>
+              )}
             </div>
           </Box>
 
