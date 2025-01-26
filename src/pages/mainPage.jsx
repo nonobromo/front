@@ -10,7 +10,7 @@ function MainPage() {
   const { allTasks } = useAllTasks();
   const { user } = useAuth();
   const { userInfo } = useUser(user?._id);
-  //I need to fix  the tasks table and move everything from the title after to the right
+
   return (
     <Container
       maxWidth="lg"
@@ -26,7 +26,7 @@ function MainPage() {
         <TableHeaders />
       </Box>
 
-      {allTasks.length <= 0
+      {user && allTasks.length <= 0
         ? "No Tasks to show"
         : allTasks.map((task) => {
             return <TaskItem taskData={task} key={task._id} />;
