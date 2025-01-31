@@ -1,11 +1,13 @@
 import httpServices from "./httpService";
 
+
+
 export function deleteTask(id) {
   return httpServices.delete(`/tasks/${id}`);
 }
 
-export function editTask(id) {
-  return httpServices.put(`/tasks/${id}`);
+export function editTask(id, task) {
+  return httpServices.put(`/tasks/${id}`, task);
 }
 
 export function getTask(id) {

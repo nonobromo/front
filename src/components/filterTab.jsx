@@ -6,19 +6,19 @@ function FilterTab({ taskState, setTaskState }) {
       <div className="buttons-filter-area">
         <div className="buttons-area">
           <button
-            className="task-filter-btn"
+            className={`task-filter-btn ${taskState === "My Tasks" ? "task-fillter-btn-fill": ""}`}
             onClick={() => setTaskState("My Tasks")}
           >
             My Tasks
           </button>
           <button
-            className="task-filter-btn"
+            className={`task-filter-btn ${taskState === "Unassigned Tasks" ? "task-fillter-btn-fill": ""}`}
             onClick={() => setTaskState("Unassigned Tasks")}
           >
             Unassigned Tasks
           </button>
           <button
-            className="task-filter-btn"
+             className={`task-filter-btn ${taskState === "All Tasks" ? "task-fillter-btn-fill": ""}`}
             onClick={() => setTaskState("All Tasks")}
           >
             All Tasks

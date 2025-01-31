@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,16 +12,18 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import Joi from "joi";
-import { uploadTask } from "../services/tasksService";
 
-function CreateNewGuide() {
-  const taskForm = useFormik({
+import { editTask } from "../../services/tasksService";
+
+function TaskPageTest() {
+  const taskEditForm = useFormik({
     initialValues: {
       title: "",
       description: "",
       dueDate: "",
       priority: "Medium",
       category: "Other",
+      assignedTo: ""
     },
     validate(values) {
       const schema = Joi.object({
@@ -33,6 +35,7 @@ function CreateNewGuide() {
           .default("Other")
           .required(),
         dueDate: Joi.string().required().label("Due Date"),
+        assignedTo: Joi.string().allow("")
       });
 
       const { error } = schema.validate(values, { abortEarly: false });
@@ -48,22 +51,26 @@ function CreateNewGuide() {
     },
     async onSubmit(values) {
       try {
-        await uploadTask(values);
+        await editTask(values);
       } catch (error) {
         console.error("Error uploading new task:", error);
       }
     },
   });
 
+  useEffect(() =>{
+
+  }, [])
+
   return (
-    <Container maxWidth="sm" sx={{ minHeight: "100vh" }}>
+    <Container maxWidth="lg" sx={{ minHeight: "100vh" }}>
       <Typography fontSize={36} mt={4} textAlign="center">
         Create A Task
       </Typography>
 
       <Box
         component="form"
-        onSubmit={taskForm.handleSubmit}
+        onSubmit={taskEditForm.handleSubmit}
         sx={{
           marginTop: 4,
           display: "flex",
@@ -76,8 +83,8 @@ function CreateNewGuide() {
           label="Task Title"
           fullWidth
           required
-          {...taskForm.getFieldProps("title")}
-          error={taskForm.touched.title && taskForm.errors.title}
+          {...taskEditForm.getFieldProps("title")}
+          error={taskEditForm.touched.title && taskEditForm.errors.title}
         />
         <TextField
           label="Task Description"
@@ -85,8 +92,8 @@ function CreateNewGuide() {
           required
           multiline
           rows={5}
-          {...taskForm.getFieldProps("description")}
-          error={taskForm.touched.description && taskForm.errors.description}
+          {...taskEditForm.getFieldProps("description")}
+          error={taskEditForm.touched.description && taskEditForm.errors.description}
         />
 
         <Box
@@ -99,10 +106,10 @@ function CreateNewGuide() {
             <InputLabel>Priority</InputLabel>
             <Select
               fullWidth
-              {...taskForm.getFieldProps("priority")}
-              value={taskForm.values.priority || "Medium"}
+              {...taskEditForm.getFieldProps("priority")}
+              value={taskEditForm.values.priority || "Medium"}
               displayEmpty
-              error={taskForm.touched.priority && taskForm.errors.priority}
+              error={taskEditForm.touched.priority && taskEditForm.errors.priority}
             >
               <MenuItem disabled value="">
                 Select a Priority
@@ -117,10 +124,10 @@ function CreateNewGuide() {
             <InputLabel>Category</InputLabel>
             <Select
               fullWidth
-              {...taskForm.getFieldProps("category")}
-              value={taskForm.values.category || "Other"}
+              {...taskEditForm.getFieldProps("category")}
+              value={taskEditForm.values.category || "Other"}
               displayEmpty
-              error={taskForm.touched.category && taskForm.errors.category}
+              error={taskEditForm.touched.category && taskEditForm.errors.category}
             >
               <MenuItem disabled value="">
                 Select a Category
@@ -139,8 +146,8 @@ function CreateNewGuide() {
           type="date"
           fullWidth
           required
-          {...taskForm.getFieldProps("dueDate")}
-          error={taskForm.touched.dueDate && taskForm.errors.dueDate}
+          {...taskEditForm.getFieldProps("dueDate")}
+          error={taskEditForm.touched.dueDate && taskEditForm.errors.dueDate}
         />
 
         <Button type="submit" variant="contained" color="primary" fullWidth>
@@ -151,4 +158,4 @@ function CreateNewGuide() {
   );
 }
 
-export default CreateNewGuide;
+export default TaskPageTest;

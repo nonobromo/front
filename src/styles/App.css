@@ -1,11 +1,15 @@
 .task-filter-btn {
   padding: 12px 8px 12px 8px;
-  background-color: #0059ff;
+  background-color: darkgray;
   border: none;
   border-radius: 16px;
   color: white;
   font-weight: 200;
   height: 40px;
+}
+
+.task-fillter-btn-fill{
+  background-color: #0059ff;
 }
 
 .buttons-filter-area {

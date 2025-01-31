@@ -13,6 +13,8 @@ import About from "./pages/about";
 import GuidePage from "./components/common/guidePage";
 import CreateNewGuide from "./pages/uploadGuide";
 import UserPageInfo from "./pages/userPage";
+import TaskPage from "./components/common/taskPage";
+import TaskPageTest from "./components/common/taskPageTest";
 
 const App = () => {
   return (
@@ -31,9 +33,9 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-out" element={<Logout />} />
         <Route path="/about" element={<About />} />
-        <Route path="/guidePage/:id" element={<GuidePage/>}/>
         <Route path="/createGuide" element={<CreateNewGuide/>}/>
         <Route path="/userInfo/" element={<UserPageInfo/>}/>
+        <Route path="/taskPage/:id" element={<TaskPageTest/>}/>
       </Routes>
     </Box>
   );

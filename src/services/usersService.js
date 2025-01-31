@@ -45,6 +45,23 @@ export async function getUserData(id) {
   return userData;
 }
 
+export async function getAllusers(){
+  const data = await httpServices.get("/users/allUsers");
+
+  const users = [];
+   
+  for (const d of data.data){
+    const keyId = d._id;
+    const fullNameKey = `${d.name.first} ${d.name.last}`;
+    users.push({id: keyId, fullName: fullNameKey}); 
+  }
+  
+  return users;
+}
+
+
+
+
 
 export function logOut() {
   setToken(null);

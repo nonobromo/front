@@ -7,6 +7,7 @@ import useUser from "../hooks/getUser";
 import { useAuth } from "../context/auth.context";
 import { useState } from "react";
 import useAllMyTasks from "../hooks/getMyTasks";
+import { NavLink } from "react-router-dom";
 
 function MainPage() {
   const { allTasks } = useAllTasks();
@@ -16,9 +17,9 @@ function MainPage() {
   const [taskState, setTaskState] = useState("All Tasks");
 
   let displayedTasks = [];
-
+  console.log(userInfo)
   if (taskState === "My Tasks") {
-    displayedTasks = allMyTasks;
+    displayedTasks = allTasks.filter((task) => task.assignedTo === `${userInfo.name?.first} ${userInfo.name?.last}` );
   } else if (taskState === "Unassigned Tasks") {
     displayedTasks = allTasks.filter((task) => !task.assignedTo);
   } else {
@@ -45,6 +46,10 @@ function MainPage() {
             <TaskItem taskData={task} key={task._id} />
           ))
         : "No Tasks to show"}
+
+      <NavLink to="/pageExample">
+          go to example
+      </NavLink>
     </Container>
   );
 }
