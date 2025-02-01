@@ -4,7 +4,6 @@ import useUser from "../../hooks/getUser";
 import CategoryIcon from "./categoryIcon";
 import { Link } from "react-router-dom";
 
-
 function TaskItem({
   taskData: {
     title,
@@ -14,27 +13,39 @@ function TaskItem({
     assignedTo,
     priority,
     category,
-    _id
+    _id,
   },
 }) {
+  let reversedCreatedDate = [dateCreated][0].split("/");
+  const day = reversedCreatedDate[1].padStart(2, "0");
+  const month = reversedCreatedDate[0].padStart(2, "0");
+  const year = reversedCreatedDate[2];
 
+  const formattedCreatedDate = `${day}/${month}/${year}`;
+  const reversedDueDate = [dueDate][0].split("-").reverse().join("/");
 
   return (
     <Container maxWidth="lg">
-      <Link to={`/taskPage/${_id}`} style={{ textDecoration: "none", color: "inherit" }}>
-      <Box sx={{ maxWidth: "lg", width: "100%" }}>
-        <div className="table-data">
-          <span className="table-data-title">{title}</span>
-          <span className="hide-on-small">Noam</span>
-          <span>{assignedTo}</span>
-          <span className="hide-on-small">{dateCreated}</span>
-          <span className="table-date-due">{dueDate}</span>
-          <span className="hide-on-small"><CategoryIcon category={category}/></span>
-          <span className="hide-on-small">
-            <Priority priority={priority} />
-          </span>
-        </div>
-      </Box>
+      <Link
+        to={`/taskPage/${_id}`}
+        style={{ textDecoration: "none", color: "inherit" }}
+        state={{ id: _id }}
+      >
+        <Box sx={{ maxWidth: "lg", width: "100%" }}>
+          <div className="table-data">
+            <span className="table-data-title">{title}</span>
+            <span className="hide-on-small">Noam</span>
+            <span>{assignedTo}</span>
+            <span className="hide-on-small">{formattedCreatedDate}</span>
+            <span className="table-date-due">{reversedDueDate}</span>
+            <span className="hide-on-small">
+              <CategoryIcon category={category} />
+            </span>
+            <span className="hide-on-small">
+              <Priority priority={priority} />
+            </span>
+          </div>
+        </Box>
       </Link>
     </Container>
   );

@@ -14,8 +14,14 @@ import { useFormik } from "formik";
 import Joi from "joi";
 
 import { editTask } from "../../services/tasksService";
+import useTask from "../../hooks/getTask";
+import { useParams } from "react-router-dom";
 
 function TaskPageTest() {
+  const { id } = useParams();
+
+  const { taskById } = useTask(id);
+
   const taskEditForm = useFormik({
     initialValues: {
       title: "",
@@ -23,7 +29,7 @@ function TaskPageTest() {
       dueDate: "",
       priority: "Medium",
       category: "Other",
-      assignedTo: ""
+      assignedTo: "",
     },
     validate(values) {
       const schema = Joi.object({
@@ -31,11 +37,11 @@ function TaskPageTest() {
         description: Joi.string().min(10).max(1024).required(),
         priority: Joi.string().valid("Low", "Medium", "High").required(),
         category: Joi.string()
-          .valid("Cleaning", "Recovery", "Printing", "Assembly" ,"Other")
+          .valid("Cleaning", "Recovery", "Printing", "Assembly", "Other")
           .default("Other")
           .required(),
         dueDate: Joi.string().required().label("Due Date"),
-        assignedTo: Joi.string().allow("")
+        assignedTo: Joi.string().allow(""),
       });
 
       const { error } = schema.validate(values, { abortEarly: false });
@@ -51,21 +57,27 @@ function TaskPageTest() {
     },
     async onSubmit(values) {
       try {
-        await editTask(values);
+        await editTask(id, values);
       } catch (error) {
         console.error("Error uploading new task:", error);
       }
     },
   });
 
-  useEffect(() =>{
-
-  }, [])
+  useEffect(() => {
+    taskEditForm.setValues({
+      title: taskById.title || "",
+      description: taskById.description || "",
+      priority: taskById.priority || "",
+      category: taskById.category || "",
+      dueDate: taskById.dueDate || "",
+    });
+  }, [taskById]);
 
   return (
     <Container maxWidth="lg" sx={{ minHeight: "100vh" }}>
       <Typography fontSize={36} mt={4} textAlign="center">
-        Create A Task
+        Edit Task
       </Typography>
 
       <Box
@@ -93,7 +105,9 @@ function TaskPageTest() {
           multiline
           rows={5}
           {...taskEditForm.getFieldProps("description")}
-          error={taskEditForm.touched.description && taskEditForm.errors.description}
+          error={
+            taskEditForm.touched.description && taskEditForm.errors.description
+          }
         />
 
         <Box
@@ -109,7 +123,9 @@ function TaskPageTest() {
               {...taskEditForm.getFieldProps("priority")}
               value={taskEditForm.values.priority || "Medium"}
               displayEmpty
-              error={taskEditForm.touched.priority && taskEditForm.errors.priority}
+              error={
+                taskEditForm.touched.priority && taskEditForm.errors.priority
+              }
             >
               <MenuItem disabled value="">
                 Select a Priority
@@ -127,7 +143,9 @@ function TaskPageTest() {
               {...taskEditForm.getFieldProps("category")}
               value={taskEditForm.values.category || "Other"}
               displayEmpty
-              error={taskEditForm.touched.category && taskEditForm.errors.category}
+              error={
+                taskEditForm.touched.category && taskEditForm.errors.category
+              }
             >
               <MenuItem disabled value="">
                 Select a Category
@@ -141,6 +159,7 @@ function TaskPageTest() {
           </Box>
         </Box>
 
+        <InputLabel>Due Date</InputLabel>
         <Input
           label="Due Date"
           type="date"
@@ -151,7 +170,7 @@ function TaskPageTest() {
         />
 
         <Button type="submit" variant="contained" color="primary" fullWidth>
-          Submit
+          Save
         </Button>
       </Box>
     </Container>

@@ -29,7 +29,7 @@ function CreateNewGuide() {
         description: Joi.string().min(10).max(1024).required(),
         priority: Joi.string().valid("Low", "Medium", "High").required(),
         category: Joi.string()
-          .valid("Cleaning", "Recovery", "Printing", "Assembly" ,"Other")
+          .valid("Cleaning", "Recovery", "Printing", "Assembly", "Other")
           .default("Other")
           .required(),
         dueDate: Joi.string().required().label("Due Date"),
@@ -133,7 +133,7 @@ function CreateNewGuide() {
             </Select>
           </Box>
         </Box>
-
+        <InputLabel>Due Date</InputLabel>
         <Input
           label="Due Date"
           type="date"
