@@ -16,11 +16,13 @@ import Joi from "joi";
 import { editTask } from "../../services/tasksService";
 import useTask from "../../hooks/getTask";
 import { useParams } from "react-router-dom";
+import useAllUser from "../../hooks/getAllUsers";
 
 function TaskPageTest() {
   const { id } = useParams();
 
   const { taskById } = useTask(id);
+  const {allUsersByName} = useAllUser()
 
   const taskEditForm = useFormik({
     initialValues: {
@@ -158,8 +160,10 @@ function TaskPageTest() {
             </Select>
           </Box>
         </Box>
-
-        <InputLabel>Due Date</InputLabel>
+        
+        <Box sx={{display: "flex", gap: 2}}>
+          <Box sx={{flex: 1,}}>
+        <InputLabel sx={{marginBottom: 1}}>Due Date</InputLabel>
         <Input
           label="Due Date"
           type="date"
@@ -167,7 +171,19 @@ function TaskPageTest() {
           required
           {...taskEditForm.getFieldProps("dueDate")}
           error={taskEditForm.touched.dueDate && taskEditForm.errors.dueDate}
+          
         />
+        </Box>
+        <Box sx={{flex: 1}}>
+        <InputLabel sx={{marginBottom: 1}}>Assigned to</InputLabel> 
+        <Select fullWidth displayEmpty value={taskEditForm.values.assignedTo || ""} {...taskEditForm.getFieldProps("assignedTo")}> 
+              <MenuItem value="" disabled></MenuItem>
+              {allUsersByName.map((user) =>{
+                return <MenuItem key={user.id}>{user.fullName}</MenuItem>
+              })}
+        </Select>
+        </Box>
+        </Box>
 
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Save

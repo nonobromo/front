@@ -13,6 +13,7 @@ import {
 import { useFormik } from "formik";
 import Joi from "joi";
 import { uploadTask } from "../services/tasksService";
+import {CleaningServices, Print, Restore, Build} from '@mui/icons-material'
 
 function CreateNewGuide() {
   const taskForm = useFormik({

@@ -15,6 +15,7 @@ import CreateNewGuide from "./pages/uploadGuide";
 import UserPageInfo from "./pages/userPage";
 import TaskPage from "./components/common/taskPage";
 import TaskPageTest from "./components/common/taskPageTest";
+import Footer from "./components/footer";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/userInfo/" element={<UserPageInfo/>}/>
         <Route path="/taskPage/:id" element={<TaskPageTest/>}/>
       </Routes>
+      <Footer/>
     </Box>
   );
 };

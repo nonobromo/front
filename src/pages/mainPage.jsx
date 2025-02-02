@@ -29,7 +29,7 @@ function MainPage() {
   return (
     <Container
       maxWidth="lg"
-      sx={{ minHeight: "100%", display: "flex", flexDirection: "column" }}
+      sx={{ minHeight: "100%", display: "flex", flexDirection: "column", marginBottom: 8 }}
     >
       <Typography fontSize="4rem" variant="h1" mt={4}>
         Its time to do some Basic
@@ -47,7 +47,7 @@ function MainPage() {
           ))
         : "No Tasks to show"}
 
-      <NavLink to="/pageExample">go to example</NavLink>
+      {/* <NavLink to="/pageExample">go to example</NavLink> */}
     </Container>
   );
 }
