@@ -22,7 +22,7 @@ function TaskPageTest() {
   const { id } = useParams();
 
   const { taskById } = useTask(id);
-  const {allUsersByName} = useAllUser()
+  const { allUsersByName } = useAllUser();
 
   const taskEditForm = useFormik({
     initialValues: {
@@ -67,13 +67,16 @@ function TaskPageTest() {
   });
 
   useEffect(() => {
-    taskEditForm.setValues({
-      title: taskById.title || "",
-      description: taskById.description || "",
-      priority: taskById.priority || "",
-      category: taskById.category || "",
-      dueDate: taskById.dueDate || "",
-    });
+    if (taskById) {
+      taskEditForm.setValues({
+        title: taskById.title || "",
+        description: taskById.description || "",
+        priority: taskById.priority || "",
+        category: taskById.category || "",
+        dueDate: taskById.dueDate || "",
+        assignedTo: taskById.assignedTo || "",
+      });
+    }
   }, [taskById]);
 
   return (
@@ -91,6 +94,7 @@ function TaskPageTest() {
           flexDirection: "column",
           gap: 4,
           padding: 5,
+          borderBottom: "1px solid black",
         }}
       >
         <TextField
@@ -98,7 +102,7 @@ function TaskPageTest() {
           fullWidth
           required
           {...taskEditForm.getFieldProps("title")}
-          error={taskEditForm.touched.title && taskEditForm.errors.title}
+          error={taskEditForm.touched.title && !!taskEditForm.errors.title}
         />
         <TextField
           label="Task Description"
@@ -108,7 +112,8 @@ function TaskPageTest() {
           rows={5}
           {...taskEditForm.getFieldProps("description")}
           error={
-            taskEditForm.touched.description && taskEditForm.errors.description
+            taskEditForm.touched.description &&
+            !!taskEditForm.errors.description
           }
         />
 
@@ -160,35 +165,51 @@ function TaskPageTest() {
             </Select>
           </Box>
         </Box>
-        
-        <Box sx={{display: "flex", gap: 2}}>
-          <Box sx={{flex: 1,}}>
-        <InputLabel sx={{marginBottom: 1}}>Due Date</InputLabel>
-        <Input
-          label="Due Date"
-          type="date"
-          fullWidth
-          required
-          {...taskEditForm.getFieldProps("dueDate")}
-          error={taskEditForm.touched.dueDate && taskEditForm.errors.dueDate}
-          
-        />
-        </Box>
-        <Box sx={{flex: 1}}>
-        <InputLabel sx={{marginBottom: 1}}>Assigned to</InputLabel> 
-        <Select fullWidth displayEmpty value={taskEditForm.values.assignedTo || ""} {...taskEditForm.getFieldProps("assignedTo")}> 
+
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ flex: 1 }}>
+            <InputLabel sx={{ marginBottom: 1 }}>Due Date</InputLabel>
+            <Input
+              label="Due Date"
+              type="date"
+              fullWidth
+              required
+              {...taskEditForm.getFieldProps("dueDate")}
+              error={
+                taskEditForm.touched.dueDate && taskEditForm.errors.dueDate
+              }
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <InputLabel sx={{ marginBottom: 1 }}>Assigned to</InputLabel>
+            <Select
+              fullWidth
+              displayEmpty
+              value={taskEditForm.values.assignedTo || ""}
+              {...taskEditForm.getFieldProps("assignedTo")}
+            >
               <MenuItem value="" disabled></MenuItem>
-              {allUsersByName.map((user) =>{
-                return <MenuItem key={user.id}>{user.fullName}</MenuItem>
+              {allUsersByName.map((user) => {
+                return (
+                  <MenuItem value={user.fullName} key={user.id}>
+                    {user.fullName}
+                  </MenuItem>
+                );
               })}
-        </Select>
-        </Box>
+            </Select>
+          </Box>
         </Box>
 
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Save
         </Button>
       </Box>
+      <Typography variant="h4" sx={{ marginTop: 3 }}>
+        Remarks
+      </Typography>
+      <Container maxWidth="lg">
+        {taskById.remarks.length <= 0 ? "No Remarks" : "Blah Blah"}
+      </Container>
     </Container>
   );
 }

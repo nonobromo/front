@@ -23,6 +23,7 @@ function TaskItem({
 
   const formattedCreatedDate = `${day}/${month}/${year}`;
   const reversedDueDate = [dueDate][0].split("-").reverse().join("/");
+  const { userInfo } = useUser(createdBy);
 
   return (
     <Container maxWidth="lg">
@@ -34,7 +35,7 @@ function TaskItem({
         <Box sx={{ maxWidth: "lg", width: "100%" }}>
           <div className="table-data">
             <span className="table-data-title">{title}</span>
-            <span className="hide-on-small">Noam</span>
+            <span className="hide-on-small">{userInfo?.name?.first}</span>
             <span>{assignedTo}</span>
             <span className="hide-on-small">{formattedCreatedDate}</span>
             <span className="table-date-due">{reversedDueDate}</span>

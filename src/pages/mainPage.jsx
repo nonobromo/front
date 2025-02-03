@@ -18,7 +18,8 @@ function MainPage() {
 
   if (taskState === "My Tasks") {
     displayedTasks = allTasks.filter(
-      (task) => task.assignedTo === userInfo._id
+      (task) =>
+        task.assignedTo === `${userInfo?.name?.first} ${userInfo?.name?.last}`
     );
   } else if (taskState === "Unassigned Tasks") {
     displayedTasks = allTasks.filter((task) => !task.assignedTo);
@@ -29,7 +30,12 @@ function MainPage() {
   return (
     <Container
       maxWidth="lg"
-      sx={{ minHeight: "100%", display: "flex", flexDirection: "column", marginBottom: 8 }}
+      sx={{
+        minHeight: "100%",
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: 8,
+      }}
     >
       <Typography fontSize="4rem" variant="h1" mt={4}>
         Its time to do some Basic
