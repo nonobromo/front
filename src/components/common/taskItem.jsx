@@ -23,20 +23,19 @@ function TaskItem({
 
   const formattedCreatedDate = `${day}/${month}/${year}`;
   const reversedDueDate = [dueDate][0].split("-").reverse().join("/");
-  const { userInfo } = useUser(createdBy);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth={false} sx={{maxWidth: "1400px"}}>
       <Link
         to={`/taskPage/${_id}`}
         style={{ textDecoration: "none", color: "inherit" }}
         state={{ id: _id }}
       >
-        <Box sx={{ maxWidth: "lg", width: "100%" }}>
+        <Container maxWidth={false} sx={{ maxWidth: "lg" }}>
           <div className="table-data">
             <span className="table-data-title">{title}</span>
-            <span className="hide-on-small">{userInfo?.name?.first}</span>
-            <span>{assignedTo}</span>
+            <span className="hide-on-small">{createdBy.name}</span>
+            <span className="table-data-assignedToo">{assignedTo.name}</span>
             <span className="hide-on-small">{formattedCreatedDate}</span>
             <span className="table-date-due">{reversedDueDate}</span>
             <span className="hide-on-small">
@@ -46,7 +45,7 @@ function TaskItem({
               <Priority priority={priority} />
             </span>
           </div>
-        </Box>
+        </Container>
       </Link>
     </Container>
   );

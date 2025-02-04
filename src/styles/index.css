@@ -15,9 +15,11 @@ body html {
   min-height: 10px !important;
 }
 
-a:active {
-  color: white;
+a{
+  color:  black!important;
 }
+
+
 
 a.active {
   color: white !important;

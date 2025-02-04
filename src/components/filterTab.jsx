@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-function FilterTab({ taskState, setTaskState }) {
+function FilterTab({ taskState, setTaskState, search, setSearch }) {
   return (
     <Container maxWidth="lg" sx={{ marginTop: 8, display: "flex" }}>
       <div className="buttons-filter-area">
@@ -25,7 +25,7 @@ function FilterTab({ taskState, setTaskState }) {
           </button>
         </div>
         <div>
-          <input type="text" className="search-box" placeholder="Search..." />
+          <input type="text" className="search-box" placeholder="Search..." onChange={(e) => setSearch(e.target.value)}/>
         </div>
       </div>
     </Container>

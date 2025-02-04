@@ -31,7 +31,10 @@ function TaskPageTest() {
       dueDate: "",
       priority: "Medium",
       category: "Other",
-      assignedTo: "",
+      assignedTo: {
+        user_id: "",
+        name: ""
+      },
     },
     validate(values) {
       const schema = Joi.object({
@@ -43,7 +46,10 @@ function TaskPageTest() {
           .default("Other")
           .required(),
         dueDate: Joi.string().required().label("Due Date"),
-        assignedTo: Joi.string().allow(""),
+        assignedTo: Joi.object({
+          user_id: Joi.string().allow(""),
+          name: Joi.string().allow("")
+        }).label("Assigned To"),
       });
 
       const { error } = schema.validate(values, { abortEarly: false });
@@ -74,7 +80,7 @@ function TaskPageTest() {
         priority: taskById.priority || "",
         category: taskById.category || "",
         dueDate: taskById.dueDate || "",
-        assignedTo: taskById.assignedTo || "",
+        assignedTo: taskById.assignedTo || {user_id: "", name: ""},
       });
     }
   }, [taskById]);
@@ -183,20 +189,25 @@ function TaskPageTest() {
           <Box sx={{ flex: 1 }}>
             <InputLabel sx={{ marginBottom: 1 }}>Assigned to</InputLabel>
             <Select
-              fullWidth
-              displayEmpty
-              value={taskEditForm.values.assignedTo || ""}
-              {...taskEditForm.getFieldProps("assignedTo")}
-            >
-              <MenuItem value="" disabled></MenuItem>
-              {allUsersByName.map((user) => {
-                return (
-                  <MenuItem value={user.fullName} key={user.id}>
-                    {user.fullName}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+  fullWidth
+  displayEmpty
+  value={taskEditForm.values.assignedTo.user_id || ""}
+  onChange={(event) => {
+    const selectedUser = allUsersByName.find(user => user.id === event.target.value);
+    taskEditForm.setFieldValue("assignedTo", {
+      user_id: selectedUser?.id || "",
+      name: selectedUser?.fullName || ""
+    });
+  }}
+>
+  <MenuItem value="" disabled>Select a User</MenuItem>
+  {allUsersByName.map((user) => (
+    <MenuItem value={user.id} key={user.id}>
+      {user.fullName}
+    </MenuItem>
+  ))}
+</Select>
+
           </Box>
         </Box>
 
@@ -207,9 +218,7 @@ function TaskPageTest() {
       <Typography variant="h4" sx={{ marginTop: 3 }}>
         Remarks
       </Typography>
-      <Container maxWidth="lg">
-        {taskById.remarks.length <= 0 ? "No Remarks" : "Blah Blah"}
-      </Container>
+    
     </Container>
   );
 }

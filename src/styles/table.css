@@ -1,6 +1,6 @@
 .table-contents {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   align-items: center;
   border-bottom: 1px solid #dbdbdb;
   padding-bottom: 15px;
@@ -13,7 +13,7 @@
 
 .table-data {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   align-items: center;
   padding-bottom: 15px;
   margin-top: 15px;
@@ -21,6 +21,10 @@
 
 .table-data-title {
   grid-column: 1/3;
+}
+
+.table-data-assignedToo{
+  grid-column: 5/7;
 }
 
 @media (max-width: 768px) {
