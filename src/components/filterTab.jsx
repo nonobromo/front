@@ -1,8 +1,10 @@
 import { Container } from "@mui/material";
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import AppsIcon from '@mui/icons-material/Apps';
 
-function FilterTab({ taskState, setTaskState, search, setSearch }) {
+function FilterTab({ taskState, setTaskState, search, setSearch, display, setDisplay }) {
   return (
-    <Container maxWidth="lg" sx={{ marginTop: 8, display: "flex" }}>
+    <Container maxWidth={false} sx={{ marginTop: 8, display: "flex", maxWidth: "1400px" }}>
       <div className="buttons-filter-area">
         <div className="buttons-area">
           <button
@@ -23,6 +25,12 @@ function FilterTab({ taskState, setTaskState, search, setSearch }) {
           >
             All Tasks
           </button>
+
+          {display === "list" && < FormatListBulletedIcon onClick={()=> setDisplay("grid")}/>}
+          {display === "grid" && <AppsIcon onClick={()=> setDisplay("list")}/>}
+        </div>
+        <div>
+        
         </div>
         <div>
           <input type="text" className="search-box" placeholder="Search..." onChange={(e) => setSearch(e.target.value)}/>

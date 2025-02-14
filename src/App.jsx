@@ -16,6 +16,8 @@ import UserPageInfo from "./pages/userPage";
 import TaskPage from "./components/common/taskPage";
 import TaskPageTest from "./components/common/taskPageTest";
 import Footer from "./components/footer";
+import SkPage from "./pages/skPage";
+import Home from "./pages/home";
 
 const App = () => {
   return (
@@ -29,7 +31,8 @@ const App = () => {
     >
       <NavbarTest />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<Home/>}/>
+        <Route path="/tasks" element={<MainPage />} />
         <Route path="/sign-Up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-out" element={<Logout />} />
@@ -37,6 +40,7 @@ const App = () => {
         <Route path="/createGuide" element={<CreateNewGuide/>}/>
         <Route path="/userInfo/" element={<UserPageInfo/>}/>
         <Route path="/taskPage/:id" element={<TaskPageTest/>}/>
+        <Route path="/sk-page" element={<SkPage/>}/>
       </Routes>
       <Footer/>
     </Box>

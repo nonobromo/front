@@ -8,8 +8,9 @@ function CategoryIcon({category}){
 
     return(
         <Box sx={{display: "flex", justifyContent: "space-between",  alignItems: "center", width: "100px"}}>
-            {categoryIcon}
             <span>{category}</span>
+            {categoryIcon}
+            
 
         </Box>
     )

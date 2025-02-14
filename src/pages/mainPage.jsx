@@ -6,15 +6,15 @@ import useAllTasks from "../hooks/getTasks";
 import useUser from "../hooks/getUser";
 import { useAuth } from "../context/auth.context";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import ListTaskShowCase from "../components/listTaskShowCase";
 
 function MainPage() {
   const { allTasks } = useAllTasks();
   const { user } = useAuth();
   const { userInfo } = useUser(user?._id);
   const [taskState, setTaskState] = useState("All Tasks");
-  const [search, setSearch] = useState("")
-
+  const [search, setSearch] = useState("");
+  const [display, setDisplay] = useState("list")
   let displayedTasks = [];
 
   
@@ -25,7 +25,7 @@ function MainPage() {
         task.assignedTo.user_id === user._id
     );
   } else if (taskState === "Unassigned Tasks") {
-    displayedTasks = allTasks;
+    displayedTasks = allTasks.filter((task) => !task.assignedTo?.name);
   } else {
     displayedTasks = allTasks;
   }
@@ -49,19 +49,9 @@ function MainPage() {
         Its time to do some Basic
       </Typography>
 
-      <FilterTab taskState={taskState} setTaskState={setTaskState} search={search} setSearch={setSearch} />
+      <FilterTab  taskState={taskState} setTaskState={setTaskState} search={search} setSearch={setSearch} display={display} setDisplay={setDisplay} />
 
-      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <TableHeaders />
-      </Box>
-
-      {user && displayedTasks.length > 0
-        ? displayedTasks.map((task) => (
-            <TaskItem taskData={task} key={task._id} />
-          ))
-        : "No Tasks to show"}
-
-      {/* <NavLink to="/pageExample">go to example</NavLink> */}
+      <ListTaskShowCase displayedTasks={displayedTasks }/>
     </Container>
   );
 }

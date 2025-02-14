@@ -31,11 +31,11 @@ function TaskItem({
         style={{ textDecoration: "none", color: "inherit" }}
         state={{ id: _id }}
       >
-        <Container maxWidth={false} sx={{ maxWidth: "lg" }}>
+
           <div className="table-data">
             <span className="table-data-title">{title}</span>
             <span className="hide-on-small">{createdBy.name}</span>
-            <span className="table-data-assignedToo">{assignedTo.name}</span>
+            <span className="table-data-assignedToo hide-on-small">{assignedTo.name}</span>
             <span className="hide-on-small">{formattedCreatedDate}</span>
             <span className="table-date-due">{reversedDueDate}</span>
             <span className="hide-on-small">
@@ -45,7 +45,7 @@ function TaskItem({
               <Priority priority={priority} />
             </span>
           </div>
-        </Container>
+
       </Link>
     </Container>
   );

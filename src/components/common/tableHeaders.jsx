@@ -2,8 +2,7 @@ import { Box, Container } from "@mui/material";
 
 function TableHeaders() {
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ maxWidth: "lg", width: "100%" }}>
+    <Container maxWidth="false" sx={{maxWidth: "1400px"}}>
         <div className="table-contents">
           <span className="table-title">Title</span>
           <span className="hide-on-small">Created By</span>
@@ -13,7 +12,6 @@ function TableHeaders() {
           <span className="hide-on-small">Category</span>
           <span className="hide-on-small">Priority</span>
         </div>
-      </Box>
     </Container>
   );
 }

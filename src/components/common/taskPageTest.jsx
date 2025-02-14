@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Card,
   Container,
   Input,
   InputLabel,
@@ -13,7 +14,7 @@ import {
 import { useFormik } from "formik";
 import Joi from "joi";
 
-import { editTask } from "../../services/tasksService";
+import { editTask, addRemark} from "../../services/tasksService";
 import useTask from "../../hooks/getTask";
 import { useParams } from "react-router-dom";
 import useAllUser from "../../hooks/getAllUsers";
@@ -23,6 +24,8 @@ function TaskPageTest() {
 
   const { taskById } = useTask(id);
   const { allUsersByName } = useAllUser();
+  const [remarkText, setRemarkText] = useState("")
+
 
   const taskEditForm = useFormik({
     initialValues: {
@@ -88,7 +91,7 @@ function TaskPageTest() {
   return (
     <Container maxWidth="lg" sx={{ minHeight: "100vh" }}>
       <Typography fontSize={36} mt={4} textAlign="center">
-        Edit Task
+        Task overview
       </Typography>
 
       <Box
@@ -215,10 +218,39 @@ function TaskPageTest() {
           Save
         </Button>
       </Box>
-      <Typography variant="h4" sx={{ marginTop: 3 }}>
-        Remarks
+
+
+  <Typography variant="h4" sx={{ marginTop: 4 }}>
+  Remarks
+</Typography>
+ 
+<Container maxWidth="md">
+  <TextField value={remarkText} sx={{marginBottom: "24px", marginTop: "24px"}} fullWidth multiline rows={6} label="Add Remark" onChange={(e) => setRemarkText(e.target.value)}/>
+    <Button onClick={ () => addRemark(id, remarkText)} sx={{marginTop: "12px", marginBottom: "12px"}} variant="contained" color="primary">Send</Button>
+</Container>
+
+<Container maxWidth="md" sx={{ paddingBottom: "20px" }}>
+  <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+    {taskById.remarks?.length > 0 ? (
+      taskById.remarks.map((remark, index) => (
+        <Card key={index} sx={{ padding: 2, borderLeft: "4px solid #1976d2" }}>
+          <Typography variant="body2" color="text.secondary">
+            {remark.createdAt}
+          </Typography>
+          <Typography variant="subtitle1" fontWeight="bold">
+            {remark.writtenBy}
+          </Typography>
+          <Typography variant="body1">{remark.text}</Typography>
+        </Card>
+      ))
+    ) : (
+      <Typography variant="body1" color="text.secondary">
+        No remarks yet.
       </Typography>
-    
+    )}
+  </Box>
+</Container>
+
     </Container>
   );
 }
