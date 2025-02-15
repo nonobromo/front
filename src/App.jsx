@@ -10,14 +10,14 @@ import MainPage from "./pages/mainPage";
 import NavbarTest from "./components/navbarTest";
 import Logout from "./pages/logout";
 import About from "./pages/about";
-import GuidePage from "./components/common/guidePage";
 import CreateNewGuide from "./pages/uploadGuide";
 import UserPageInfo from "./pages/userPage";
-import TaskPage from "./components/common/taskPage";
 import TaskPageTest from "./components/common/taskPageTest";
 import Footer from "./components/footer";
 import SkPage from "./pages/skPage";
 import Home from "./pages/home";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
@@ -30,19 +30,20 @@ const App = () => {
       }}
     >
       <NavbarTest />
+      <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Home />} />
         <Route path="/tasks" element={<MainPage />} />
         <Route path="/sign-Up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-out" element={<Logout />} />
         <Route path="/about" element={<About />} />
-        <Route path="/createGuide" element={<CreateNewGuide/>}/>
-        <Route path="/userInfo/" element={<UserPageInfo/>}/>
-        <Route path="/taskPage/:id" element={<TaskPageTest/>}/>
-        <Route path="/sk-page" element={<SkPage/>}/>
+        <Route path="/createGuide" element={<CreateNewGuide />} />
+        <Route path="/userInfo/" element={<UserPageInfo />} />
+        <Route path="/taskPage/:id" element={<TaskPageTest />} />
+        <Route path="/sk-page" element={<SkPage />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </Box>
   );
 };

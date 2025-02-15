@@ -14,18 +14,18 @@ import {
 import { useFormik } from "formik";
 import Joi from "joi";
 
-import { editTask, addRemark} from "../../services/tasksService";
+import { editTask, addRemark } from "../../services/tasksService";
 import useTask from "../../hooks/getTask";
 import { useParams } from "react-router-dom";
 import useAllUser from "../../hooks/getAllUsers";
+import Remark from "./remark";
 
 function TaskPageTest() {
   const { id } = useParams();
 
   const { taskById } = useTask(id);
   const { allUsersByName } = useAllUser();
-  const [remarkText, setRemarkText] = useState("")
-
+  const [remarkText, setRemarkText] = useState("");
 
   const taskEditForm = useFormik({
     initialValues: {
@@ -36,7 +36,7 @@ function TaskPageTest() {
       category: "Other",
       assignedTo: {
         user_id: "",
-        name: ""
+        name: "",
       },
     },
     validate(values) {
@@ -51,7 +51,7 @@ function TaskPageTest() {
         dueDate: Joi.string().required().label("Due Date"),
         assignedTo: Joi.object({
           user_id: Joi.string().allow(""),
-          name: Joi.string().allow("")
+          name: Joi.string().allow(""),
         }).label("Assigned To"),
       });
 
@@ -83,7 +83,7 @@ function TaskPageTest() {
         priority: taskById.priority || "",
         category: taskById.category || "",
         dueDate: taskById.dueDate || "",
-        assignedTo: taskById.assignedTo || {user_id: "", name: ""},
+        assignedTo: taskById.assignedTo || { user_id: "", name: "" },
       });
     }
   }, [taskById]);
@@ -192,25 +192,28 @@ function TaskPageTest() {
           <Box sx={{ flex: 1 }}>
             <InputLabel sx={{ marginBottom: 1 }}>Assigned to</InputLabel>
             <Select
-  fullWidth
-  displayEmpty
-  value={taskEditForm.values.assignedTo.user_id || ""}
-  onChange={(event) => {
-    const selectedUser = allUsersByName.find(user => user.id === event.target.value);
-    taskEditForm.setFieldValue("assignedTo", {
-      user_id: selectedUser?.id || "",
-      name: selectedUser?.fullName || ""
-    });
-  }}
->
-  <MenuItem value="" disabled>Select a User</MenuItem>
-  {allUsersByName.map((user) => (
-    <MenuItem value={user.id} key={user.id}>
-      {user.fullName}
-    </MenuItem>
-  ))}
-</Select>
-
+              fullWidth
+              displayEmpty
+              value={taskEditForm.values.assignedTo.user_id || ""}
+              onChange={(event) => {
+                const selectedUser = allUsersByName.find(
+                  (user) => user.id === event.target.value
+                );
+                taskEditForm.setFieldValue("assignedTo", {
+                  user_id: selectedUser?.id || "",
+                  name: selectedUser?.fullName || "",
+                });
+              }}
+            >
+              <MenuItem value="" disabled>
+                Select a User
+              </MenuItem>
+              {allUsersByName.map((user) => (
+                <MenuItem value={user.id} key={user.id}>
+                  {user.fullName}
+                </MenuItem>
+              ))}
+            </Select>
           </Box>
         </Box>
 
@@ -219,38 +222,43 @@ function TaskPageTest() {
         </Button>
       </Box>
 
-
-  <Typography variant="h4" sx={{ marginTop: 4 }}>
-  Remarks
-</Typography>
- 
-<Container maxWidth="md">
-  <TextField value={remarkText} sx={{marginBottom: "24px", marginTop: "24px"}} fullWidth multiline rows={6} label="Add Remark" onChange={(e) => setRemarkText(e.target.value)}/>
-    <Button onClick={ () => addRemark(id, remarkText)} sx={{marginTop: "12px", marginBottom: "12px"}} variant="contained" color="primary">Send</Button>
-</Container>
-
-<Container maxWidth="md" sx={{ paddingBottom: "20px" }}>
-  <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-    {taskById.remarks?.length > 0 ? (
-      taskById.remarks.map((remark, index) => (
-        <Card key={index} sx={{ padding: 2, borderLeft: "4px solid #1976d2" }}>
-          <Typography variant="body2" color="text.secondary">
-            {remark.createdAt}
-          </Typography>
-          <Typography variant="subtitle1" fontWeight="bold">
-            {remark.writtenBy}
-          </Typography>
-          <Typography variant="body1">{remark.text}</Typography>
-        </Card>
-      ))
-    ) : (
-      <Typography variant="body1" color="text.secondary">
-        No remarks yet.
+      <Typography variant="h4" sx={{ marginTop: 4 }}>
+        Remarks
       </Typography>
-    )}
-  </Box>
-</Container>
 
+      <Container maxWidth="md">
+        <TextField
+          value={remarkText}
+          sx={{ marginBottom: "24px", marginTop: "24px" }}
+          fullWidth
+          multiline
+          rows={6}
+          label="Add Remark"
+          onChange={(e) => setRemarkText(e.target.value)}
+        />
+        <Button
+          onClick={() => addRemark(id, remarkText)}
+          sx={{ marginTop: "12px", marginBottom: "12px" }}
+          variant="contained"
+          color="primary"
+        >
+          Send
+        </Button>
+      </Container>
+
+      <Container maxWidth="md" sx={{ paddingBottom: "20px" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {taskById.remarks?.length > 0 ? (
+            taskById.remarks.map((remark, index) => (
+              <Remark remark={remark} key={index} />
+            ))
+          ) : (
+            <Typography variant="body1" color="text.secondary">
+              No remarks yet.
+            </Typography>
+          )}
+        </Box>
+      </Container>
     </Container>
   );
 }

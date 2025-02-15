@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import Joi from "joi";
 import { useAuth } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const SignIn = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -34,8 +35,9 @@ const SignIn = () => {
       try {
         await login(values);
         navigate("/");
+        toast.success("Login success");
       } catch (er) {
-        console.log(er);
+        toast.error("Wrong Email or password");
       }
     },
   });
@@ -85,12 +87,16 @@ const SignIn = () => {
             type="email"
             label="Email"
             required
+            error={userForm.touched.email && userForm.errors.email}
+            helperText={userForm.touched.email && userForm.errors.email}
           />
           <TextField
             {...userForm.getFieldProps("password")}
             type="password"
             label="Password"
             required
+            error={userForm.touched.password && userForm.errors.password}
+            helperText={userForm.touched.password && userForm.errors.password}
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Submit

@@ -14,32 +14,37 @@ import { createUser } from "../services/usersService";
 import { useFormik } from "formik";
 import Joi from "joi";
 import { useNavigate } from "react-router-dom";
-
+import regaxs from "../regax";
+import { toast } from "react-toastify";
 const SignUp = () => {
   const navigate = useNavigate();
   const userForm = useFormik({
     initialValues: {
       name: {
         first: "",
-        last: ""
+        last: "",
       },
       email: "",
       phone: "",
       password: "",
-      picture: null,
-      creator: false,
     },
     validate(values) {
       const schema = Joi.object({
         name: Joi.object({
           first: Joi.string().min(2).max(255).required().label("First Name"),
-          last: Joi.string().min(2).max(255).required().label("Last Name")
+          last: Joi.string().min(2).max(255).required().label("Last Name"),
         }).required(),
         email: Joi.string().min(6).max(255).required().label("Email"),
         phone: Joi.string().min(9).max(11).required().label("Phone"),
-        password: Joi.string().min(8).required().label("Password"),
+        password: Joi.string()
+          .min(7)
+          .max(20)
+          .required()
+          .pattern(regaxs.passwordRegexSignUp)
+          .message(
+            "must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&*- "
+          ),
         picture: Joi.string().allow("").label("Picture"),
-        creator: Joi.boolean().default(false).label("Creator")
       });
 
       const { error } = schema.validate(values, { abortEarly: false });
@@ -57,6 +62,7 @@ const SignUp = () => {
       try {
         await createUser(values);
         navigate("/sign-in");
+        toast.success("Signed Up!");
       } catch (er) {
         console.log(er);
       }
@@ -70,7 +76,6 @@ const SignUp = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // padding: 2,
       }}
     >
       <Typography textAlign={"center"} fontSize={60} marginBottom={3}>
@@ -107,8 +112,12 @@ const SignUp = () => {
             type="text"
             label="First Name"
             required
-            error={userForm.touched.name?.first && userForm.errors["name.first"]}
-            helperText={userForm.touched.name?.first && userForm.errors["name.first"]}
+            error={
+              userForm.touched.name?.first && userForm.errors["name.first"]
+            }
+            helperText={
+              userForm.touched.name?.first && userForm.errors["name.first"]
+            }
           />
 
           <TextField
@@ -117,7 +126,9 @@ const SignUp = () => {
             label="Last Name"
             required
             error={userForm.touched.name?.last && userForm.errors["name.last"]}
-            helperText={userForm.touched.name?.last && userForm.errors["name.last"]}
+            helperText={
+              userForm.touched.name?.last && userForm.errors["name.last"]
+            }
           />
           <TextField
             {...userForm.getFieldProps("email")}
@@ -141,18 +152,16 @@ const SignUp = () => {
             label="Password"
             required
             error={userForm.touched.password && userForm.errors["password"]}
-            helperText={userForm.touched.password && userForm.errors["password"]}
+            helperText={
+              userForm.touched.password && userForm.errors["password"]
+            }
           />
           <Input
             {...userForm.getFieldProps("picture")}
             type="file"
             label="Picture"
           />
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Creator"
-            {...userForm.getFieldProps("creator")}
-          />
+
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Submit
           </Button>
