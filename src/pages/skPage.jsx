@@ -4,12 +4,26 @@ import Priority from "../components/common/priority";
 import CategoryIcon from "../components/common/categoryIcon";
 import { blue, green, orange, red } from "@mui/material/colors";
 import useAllUser from "../hooks/getAllUsers";
+import { useEffect, useState } from "react";
 
 function SkPage() {
   const { allTasks } = useAllTasks();
   const { allUsersByName } = useAllUser();
 
-  console.log(allTasks);
+  const [taskReport, setTaskReport] = useState({});
+
+  useEffect(() => {
+    const generateReport = () => {
+      return allUsersByName.reduce((acc, user) => {
+        acc[user.fullName] = allTasks.filter(task => task.assignedTo?.user_id === user.id);
+        return acc;
+      }, {});
+    };
+
+    setTaskReport(generateReport());
+  }, [allUsersByName, allTasks]); 
+  
+  console.log(taskReport)
 
   const tasksByCategory = {
     printing: allTasks.filter((task) => task.category === "Printing").length,
@@ -78,11 +92,47 @@ function SkPage() {
         }}
       >
         <Typography variant="h2">Tasks per user</Typography>
+        <Container maxWidth={false} sx={{maxWidth: "1400px"}}>
+        <div className="report-table-headers"> 
+          <span>User</span>
+          <span>Total Tasks</span>
+          <span><CategoryIcon category="Printing"/></span>
+          <span><CategoryIcon category="Assembly"/></span>
+          <span><CategoryIcon category="Cleaning"/></span>
+          <span><CategoryIcon category="Recovery"/></span>
+        </div>
 
-        <List></List>
+        {Object.entries(taskReport).map(([userName, tasks]) =>{
+          return <>
+                <div className="report-table-headers user-report-m">
+                <span>{userName}</span>
+                <span>{tasks.length}</span>
+                <span>{tasks.map((task) => task.cateogry === "Printing").length}</span>
+                <span>{tasks.map((task) => task.cateogry === "Assembly").length}</span>
+                <span>{tasks.map((task) => task.cateogry === "Cleaning").length}</span>
+                <span>{tasks.map((task) => task.cateogry === "Recovery").length}</span>
+                </div>
+                </>
+        })}
+        </Container>
       </Container>
     </Container>
   );
 }
 
 export default SkPage;
+
+
+
+// {Object.entries(taskReport).map(([userName, tasks]) => (
+//   <div key={userName}>
+//     <h2>{userName}</h2> 
+//     <ul>
+//       {tasks.length > 0 ? (
+//         tasks.map(task => <li key={task.id}>{userName} has {tasks.length} tasks</li>)
+//       ) : (
+//         <li>No tasks assigned</li>
+//       )}
+//     </ul>
+//   </div>
+// ))}

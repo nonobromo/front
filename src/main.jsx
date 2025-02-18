@@ -7,6 +7,7 @@ import "./styles/App.css";
 import "./styles/table.css";
 import "./styles/priorityDots.css";
 import "./styles/hamburger.css";
+import "./styles/tasksReportTable.css"
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/auth.context.jsx";
 
