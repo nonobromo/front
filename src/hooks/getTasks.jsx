@@ -4,6 +4,7 @@ import { useAuth } from "../context/auth.context";
 
 function useAllTasks() {
   const [allTasks, setAllTasks] = useState([]);
+
   const { user } = useAuth();
   useEffect(() => {
     const fetchAllTasks = async () => {
