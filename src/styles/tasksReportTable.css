@@ -1,11 +1,14 @@
-.report-table-headers{
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    border-bottom: 1px solid black;
-    padding: 8px;
+.report-table-headers {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 8px;
 }
 
-.user-report-m{
-    margin: "8px";
-    padding: 8px;
+.report-table-headers:first-child {
+  border-bottom: 1px solid black;
+}
+
+.user-report-m {
+  margin: "8px";
+  padding: 8px;
 }

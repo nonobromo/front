@@ -15,15 +15,26 @@ function SkPage() {
   useEffect(() => {
     const generateReport = () => {
       return allUsersByName.reduce((acc, user) => {
-        acc[user.fullName] = allTasks.filter(task => task.assignedTo?.user_id === user.id);
+        const userTasks = allTasks.filter(
+          (task) => task.assignedTo?.user_id === user.id
+        );
+        acc[user.fullName] = {
+          total: userTasks.length,
+          printing: userTasks.filter((task) => task.category === "Printing")
+            .length,
+          assembly: userTasks.filter((task) => task.category === "Assembly")
+            .length,
+          recovery: userTasks.filter((task) => task.category === "Recovery")
+            .length,
+          cleaning: userTasks.filter((task) => task.category === "Cleaning")
+            .length,
+        };
         return acc;
       }, {});
     };
 
     setTaskReport(generateReport());
-  }, [allUsersByName, allTasks]); 
-  
-  console.log(taskReport)
+  }, [allUsersByName, allTasks]);
 
   const tasksByCategory = {
     printing: allTasks.filter((task) => task.category === "Printing").length,
@@ -39,7 +50,7 @@ function SkPage() {
   };
 
   return (
-    <Container maxWidth={false} sx={{ maxWidth: "1400px" }}>
+    <Container maxWidth={false} sx={{ maxWidth: "1400px", marginBottom: 3 }}>
       <Typography fontSize={48} mt={4} variant="h1">
         Shop Keeper Dashboard
       </Typography>
@@ -92,28 +103,34 @@ function SkPage() {
         }}
       >
         <Typography variant="h2">Tasks per user</Typography>
-        <Container maxWidth={false} sx={{maxWidth: "1400px"}}>
-        <div className="report-table-headers"> 
-          <span>User</span>
-          <span>Total Tasks</span>
-          <span><CategoryIcon category="Printing"/></span>
-          <span><CategoryIcon category="Assembly"/></span>
-          <span><CategoryIcon category="Cleaning"/></span>
-          <span><CategoryIcon category="Recovery"/></span>
-        </div>
+        <Container maxWidth={false} sx={{ maxWidth: "1400px" }}>
+          <div className="report-table-headers">
+            <span>User</span>
+            <span>Total Tasks</span>
+            <span>
+              <CategoryIcon category="Printing" />
+            </span>
+            <span>
+              <CategoryIcon category="Assembly" />
+            </span>
+            <span>
+              <CategoryIcon category="Cleaning" />
+            </span>
+            <span>
+              <CategoryIcon category="Recovery" />
+            </span>
+          </div>
 
-        {Object.entries(taskReport).map(([userName, tasks]) =>{
-          return <>
-                <div className="report-table-headers user-report-m">
-                <span>{userName}</span>
-                <span>{tasks.length}</span>
-                <span>{tasks.map((task) => task.cateogry === "Printing").length}</span>
-                <span>{tasks.map((task) => task.cateogry === "Assembly").length}</span>
-                <span>{tasks.map((task) => task.cateogry === "Cleaning").length}</span>
-                <span>{tasks.map((task) => task.cateogry === "Recovery").length}</span>
-                </div>
-                </>
-        })}
+          {Object.entries(taskReport).map(([userName, report]) => (
+            <div key={userName} className="report-table-headers user-report-m">
+              <span>{userName}</span>
+              <span>{report.total}</span>
+              <span>{report.printing}</span>
+              <span>{report.assembly}</span>
+              <span>{report.cleaning}</span>
+              <span>{report.recovery}</span>
+            </div>
+          ))}
         </Container>
       </Container>
     </Container>
@@ -122,11 +139,9 @@ function SkPage() {
 
 export default SkPage;
 
-
-
 // {Object.entries(taskReport).map(([userName, tasks]) => (
 //   <div key={userName}>
-//     <h2>{userName}</h2> 
+//     <h2>{userName}</h2>
 //     <ul>
 //       {tasks.length > 0 ? (
 //         tasks.map(task => <li key={task.id}>{userName} has {tasks.length} tasks</li>)
