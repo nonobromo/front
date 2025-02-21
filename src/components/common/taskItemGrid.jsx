@@ -18,7 +18,7 @@ function ListItemGrid({ taskData }) {
     _id,
   } = taskData;
 
-  // Format created date
+
   const createdDateParts = dateCreated?.split("/") || [];
   const formattedCreatedDate =
     createdDateParts.length === 3
@@ -28,7 +28,7 @@ function ListItemGrid({ taskData }) {
         )}/${createdDateParts[2]}`
       : dateCreated;
 
-  // Format due date
+
   const formattedDueDate = dueDate?.split("-").reverse().join("/") || dueDate;
 
   return (

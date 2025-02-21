@@ -14,6 +14,7 @@ const httpServices = {
   put: axios.put,
   post: axios.post,
   delete: axios.delete,
+  patch: axios.patch,
   setDefaultCommonHeaders,
 };
 

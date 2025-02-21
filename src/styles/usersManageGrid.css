@@ -1,0 +1,12 @@
+.users-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+}
+
+@media (max-width: 1300px) {
+    .users-grid{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

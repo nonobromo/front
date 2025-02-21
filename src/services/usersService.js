@@ -45,6 +45,21 @@ export async function getUserData(id) {
   return userData;
 }
 
+export async function deleteUser(id){
+  return await httpServices.delete(`/users/${id}`)
+}
+
+export async function patchSlStatus(id){
+  return await httpServices.patch(`/users/${id}`)
+}
+
+export async function getAllSystemUsers(){
+  const allUsers = await httpServices.get("/users/allUsers");
+
+  return allUsers
+}
+
+
 export async function getAllusers(){
   const data = await httpServices.get("/users/allUsers");
 
@@ -58,9 +73,6 @@ export async function getAllusers(){
   
   return users;
 }
-
-
-
 
 
 export function logOut() {

@@ -12,3 +12,19 @@
   margin: "8px";
   padding: 8px;
 }
+
+@media (max-width: 768px){
+    .report-table-headers{
+        grid-template-columns: repeat(12, 1fr);
+    }
+
+    .sk-user-table{
+        grid-column: 1/6;
+    }
+
+    .sk-total-table{
+        grid-column: 7/13;
+    }
+
+
+}

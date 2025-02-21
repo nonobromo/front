@@ -1,7 +1,6 @@
-import { Box, Container, Typography } from "@mui/material";
+import {  Container, Typography } from "@mui/material";
 import FilterTab from "../components/filterTab";
-import TableHeaders from "../components/common/tableHeaders";
-import TaskItem from "../components/common/taskItem";
+
 import useAllTasks from "../hooks/getTasks";
 import useUser from "../hooks/getUser";
 import { useAuth } from "../context/auth.context";
