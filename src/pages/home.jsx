@@ -3,7 +3,7 @@ import { useAuth } from "../context/auth.context";
 import useUser from "../hooks/getUser";
 import useAllTasks from "../hooks/getTasks";
 import CategoryIcon from "../components/common/categoryIcon";
-import { blue, green, orange, red } from "@mui/material/colors";
+import { blue, green, red } from "@mui/material/colors";
 import Priority from "../components/common/priority";
 
 function Home() {
@@ -14,6 +14,8 @@ function Home() {
   const myTasks = allTasks.filter(
     (task) => task.assignedTo.user_id === user._id
   );
+
+  const fullName = `${userInfo?.name?.first} ${userInfo?.name?.last}`;
 
   const tasksByCategory = {
     printing: myTasks.filter((task) => task.category === "Printing").length,
@@ -31,7 +33,7 @@ function Home() {
     <Container maxWidth="lg">
       <Typography fontSize={56} mt={4} variant="h1">
         {user
-          ? `Welcome back to Basic ${userInfo?.name.first} ${userInfo?.name.last}`
+          ? `Welcome back to Basic ${user && fullName}`
           : "Welcome To Basic"}
       </Typography>
       <Typography fontSize={36} mt={2} variant="h2">

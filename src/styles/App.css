@@ -8,7 +8,7 @@
   height: 40px;
 }
 
-.task-fillter-btn-fill{
+.task-fillter-btn-fill {
   background-color: #0059ff;
 }
 
@@ -95,6 +95,8 @@ input.search-box::placeholder {
   }
 
   .buttons-filter-area {
+    justify-content: flex-start;
     flex-direction: column-reverse;
+    align-items: flex-start;
   }
 }

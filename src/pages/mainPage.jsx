@@ -1,8 +1,7 @@
-import {  Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import FilterTab from "../components/filterTab";
 
 import useAllTasks from "../hooks/getTasks";
-import useUser from "../hooks/getUser";
 import { useAuth } from "../context/auth.context";
 import { useState } from "react";
 import ListTaskShowCase from "../components/listTaskShowCase";
@@ -11,7 +10,6 @@ import GridTaskShowCase from "../components/gridTaskShowCase";
 function MainPage() {
   const { allTasks } = useAllTasks();
   const { user } = useAuth();
-  const { userInfo } = useUser(user?._id);
   const [taskState, setTaskState] = useState("All Tasks");
   const [search, setSearch] = useState("");
   const [display, setDisplay] = useState("list");
@@ -19,17 +17,19 @@ function MainPage() {
 
   if (taskState === "My Tasks") {
     displayedTasks = allTasks.filter(
-      (task) => task.assignedTo.user_id === user._id
+      (task) => task.assignedTo.user_id === user._id && !task.complete
     );
   } else if (taskState === "Unassigned Tasks") {
-    displayedTasks = allTasks.filter((task) => !task.assignedTo?.name);
+    displayedTasks = allTasks.filter(
+      (task) => !task.assignedTo?.name && !task.complete
+    );
   } else {
-    displayedTasks = allTasks;
+    displayedTasks = allTasks.filter((task) => !task.complete);
   }
 
   displayedTasks = search
     ? displayedTasks.filter((task) =>
-        task.title.toLowerCase().includes(search.toLocaleLowerCase())
+        task.title.toLowerCase().includes(search.toLowerCase())
       )
     : displayedTasks;
 
@@ -45,13 +45,12 @@ function MainPage() {
       }}
     >
       <Typography fontSize="4rem" variant="h1" mt={4}>
-        Its time to do some Basic
+        It's time to do some Basic
       </Typography>
 
       <FilterTab
         taskState={taskState}
         setTaskState={setTaskState}
-        search={search}
         setSearch={setSearch}
         display={display}
         setDisplay={setDisplay}

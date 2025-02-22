@@ -113,7 +113,7 @@ const SignUp = () => {
             label="First Name"
             required
             error={
-              userForm.touched.name?.first && userForm.errors["name.first"]
+              !!(userForm.touched.name?.first && userForm.errors["name.first"])
             }
             helperText={
               userForm.touched.name?.first && userForm.errors["name.first"]
@@ -125,7 +125,9 @@ const SignUp = () => {
             type="text"
             label="Last Name"
             required
-            error={userForm.touched.name?.last && userForm.errors["name.last"]}
+            error={
+              !!(userForm.touched.name?.last && userForm.errors["name.last"])
+            }
             helperText={
               userForm.touched.name?.last && userForm.errors["name.last"]
             }
@@ -135,7 +137,7 @@ const SignUp = () => {
             type="email"
             label="Email"
             required
-            error={userForm.touched.email && userForm.errors["email"]}
+            error={!!(userForm.touched.email && userForm.errors["email"])}
             helperText={userForm.touched.email && userForm.errors["email"]}
           />
           <TextField
@@ -143,7 +145,7 @@ const SignUp = () => {
             type="text"
             label="Phone"
             required
-            error={userForm.touched.phone && userForm.errors["phone"]}
+            error={!!(userForm.touched.phone && userForm.errors["phone"])}
             helperText={userForm.touched.phone && userForm.errors["phone"]}
           />
           <TextField
@@ -151,7 +153,7 @@ const SignUp = () => {
             type="password"
             label="Password"
             required
-            error={userForm.touched.password && userForm.errors["password"]}
+            error={!!(userForm.touched.password && userForm.errors["password"])}
             helperText={
               userForm.touched.password && userForm.errors["password"]
             }

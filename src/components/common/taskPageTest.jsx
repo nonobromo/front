@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  Card,
   Container,
   Input,
   InputLabel,
@@ -14,18 +13,35 @@ import {
 import { useFormik } from "formik";
 import Joi from "joi";
 
-import { editTask, addRemark } from "../../services/tasksService";
+import {
+  editTask,
+  addRemark,
+  markAsComplete,
+} from "../../services/tasksService";
 import useTask from "../../hooks/getTask";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAllUser from "../../hooks/getAllUsers";
 import Remark from "./remark";
+import { toast } from "react-toastify";
 
 function TaskPageTest() {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const { taskById } = useTask(id);
   const { allUsersByName } = useAllUser();
   const [remarkText, setRemarkText] = useState("");
+
+  async function markTaskAsComplete(id) {
+    try {
+      await markAsComplete(id);
+      navigate("/tasks");
+      toast.success(
+        taskById.complete ? "Marked as Uncompleted" : "Marked as Completed"
+      );
+    } catch {
+      toast.error("Failed to mark as complete");
+    }
+  }
 
   const taskEditForm = useFormik({
     initialValues: {
@@ -70,7 +86,7 @@ function TaskPageTest() {
       try {
         await editTask(id, values);
       } catch (error) {
-        console.error("Error uploading new task:", error);
+        toast.error(error);
       }
     },
   });
@@ -93,6 +109,14 @@ function TaskPageTest() {
       <Typography fontSize={36} mt={4} textAlign="center">
         Task overview
       </Typography>
+
+      <Button
+        color="success"
+        variant="contained"
+        onClick={() => markTaskAsComplete(id)}
+      >
+        {taskById.complete ? "Mark as uncomplete" : "Mark as complete"}
+      </Button>
 
       <Box
         component="form"
