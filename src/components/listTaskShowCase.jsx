@@ -7,7 +7,7 @@ function ListTaskShowCase({displayedTasks}){
 
      const { user } = useAuth();
     return(
-        <Container maxWidth={false} sx={{maxWidth: "1400px"}}>
+        <Container maxWidth={false} sx={{maxWidth: "1400px", marginTop: "16px"}}>
 
         <TableHeaders />
 

@@ -38,8 +38,13 @@ export function getUser() {
   }
 }
 
-getUser()
-
+export async function updateUserInfo(userId, formData) {
+  return await httpService.put(`/users/${userId}`, formData, {
+      headers: {
+          "Content-Type": "multipart/form-data", // ✅ Ensure multipart request
+      },
+  });
+}
 export async function getUserData(id) {
   const  userData  = await httpServices.get(`/users/${id}`, getJWT())
   return userData;
