@@ -32,53 +32,59 @@ export function getUser() {
   try {
     const token = getJWT();
     const { _id, creator, isAdmin } = jwtDecode(token);
-    return { _id,  creator, isAdmin };
+    return { _id, creator, isAdmin };
   } catch {
     return null;
   }
 }
 
-export async function updateUserInfo(userId, formData) {
-  return await httpService.put(`/users/${userId}`, formData, {
-      headers: {
-          "Content-Type": "multipart/form-data", // ✅ Ensure multipart request
-      },
+export async function updateProfilePicture(id, file) {
+  const formData = new FormData();
+  formData.append("file", file); // 'file' must match multer's field name
+
+  return await httpServices.patch(`/users/${id}/profile-picture`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 }
+
+export async function updateUserInfo(userId, formData) {
+  return await httpServices.put(`/users/${userId}`, formData);
+}
+
 export async function getUserData(id) {
-  const  userData  = await httpServices.get(`/users/${id}`, getJWT())
+  const userData = await httpServices.get(`/users/${id}`, getJWT());
   return userData;
 }
 
-export async function deleteUser(id){
-  return await httpServices.delete(`/users/${id}`)
+export async function deleteUser(id) {
+  return await httpServices.delete(`/users/${id}`);
 }
 
-export async function patchSlStatus(id){
-  return await httpServices.patch(`/users/${id}`)
+export async function patchSlStatus(id) {
+  return await httpServices.patch(`/users/${id}`);
 }
 
-export async function getAllSystemUsers(){
+export async function getAllSystemUsers() {
   const allUsers = await httpServices.get("/users/allUsers");
 
-  return allUsers
+  return allUsers;
 }
 
-
-export async function getAllusers(){
+export async function getAllusers() {
   const data = await httpServices.get("/users/allUsers");
 
   const users = [];
-   
-  for (const d of data.data){
+
+  for (const d of data.data) {
     const keyId = d._id;
     const fullNameKey = `${d.name.first} ${d.name.last}`;
-    users.push({id: keyId, fullName: fullNameKey}); 
+    users.push({ id: keyId, fullName: fullNameKey });
   }
-  
+
   return users;
 }
-
 
 export function logOut() {
   setToken(null);

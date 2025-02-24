@@ -19,7 +19,7 @@ export default function AboutPage() {
       <Typography variant="h4" gutterBottom>
         About Basic
       </Typography>
-      <Typography variant="body1" paragraph>
+      <Typography variant="body1">
         <strong>Basic</strong> is IKEA's custom-built CRM app designed to
         enhance task management and coordination across the{" "}
         <strong>Showroom (Upper Floor)</strong> and{" "}

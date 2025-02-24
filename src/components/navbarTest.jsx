@@ -54,14 +54,25 @@ export default function NavbarTest() {
               <span className="bar"></span>
             </div>
             <Link to="/" className="navbar-brand">
-              <Typography variant="h4" component="div" sx={{ flexGrow: 1, marginLeft: "12px", display: "flex", alignItems:  "center" }}>
-              Basic <Checklist fontSize="35px"/>  
+              <Typography
+                variant="h4"
+                component="div"
+                sx={{
+                  flexGrow: 1,
+                  marginLeft: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                Basic <Checklist fontSize="35px" />
               </Typography>
             </Link>
             <div className={`navbar-content ${hamburger ? "active" : ""}`}>
-              { user && <NavLink to="/tasks">
-                <Button color="inherit">Tasks</Button>
-              </NavLink>}
+              {user && (
+                <NavLink to="/tasks">
+                  <Button color="inherit">Tasks</Button>
+                </NavLink>
+              )}
 
               <NavLink to="/About">
                 <Button color="inherit">About</Button>
@@ -72,9 +83,11 @@ export default function NavbarTest() {
                 </NavLink>
               )}
 
-              {user && userInfo?.shopKeeper && <NavLink to="sk-page">
-                <Button color="inherit">SK-Area</Button>
-                </NavLink>}
+              {user && userInfo?.shopKeeper && (
+                <NavLink to="sk-page">
+                  <Button color="inherit">SK-Area</Button>
+                </NavLink>
+              )}
             </div>
           </Box>
 
