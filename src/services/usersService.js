@@ -31,8 +31,8 @@ export async function signIn(credentials) {
 export function getUser() {
   try {
     const token = getJWT();
-    const { _id, creator, isAdmin } = jwtDecode(token);
-    return { _id, creator, isAdmin };
+    const { _id, shiftLeader, shopKeeper } = jwtDecode(token);
+    return { _id, shiftLeader, shopKeeper };
   } catch {
     return null;
   }
@@ -40,7 +40,7 @@ export function getUser() {
 
 export async function updateProfilePicture(id, file) {
   const formData = new FormData();
-  formData.append("file", file); // 'file' must match multer's field name
+  formData.append("file", file); 
 
   return await httpServices.patch(`/users/${id}/profile-picture`, formData, {
     headers: {

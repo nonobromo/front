@@ -3,8 +3,6 @@ import {
   Box,
   TextField,
   Button,
-  Checkbox,
-  FormControlLabel,
   Typography,
   Container,
   Input,
@@ -12,40 +10,17 @@ import {
 
 import { createUser } from "../services/usersService";
 import { useFormik } from "formik";
-import Joi from "joi";
+
 import { useNavigate } from "react-router-dom";
-import regaxs from "../regax";
+
 import { toast } from "react-toastify";
+import { createUserValidateSchema, createUserValues } from "../../schemas";
 const SignUp = () => {
   const navigate = useNavigate();
   const userForm = useFormik({
-    initialValues: {
-      name: {
-        first: "",
-        last: "",
-      },
-      email: "",
-      phone: "",
-      password: "",
-    },
+    initialValues: createUserValues,
     validate(values) {
-      const schema = Joi.object({
-        name: Joi.object({
-          first: Joi.string().min(2).max(255).required().label("First Name"),
-          last: Joi.string().min(2).max(255).required().label("Last Name"),
-        }).required(),
-        email: Joi.string().min(6).max(255).required().label("Email"),
-        phone: Joi.string().min(9).max(11).required().label("Phone"),
-        password: Joi.string()
-          .min(7)
-          .max(20)
-          .required()
-          .pattern(regaxs.passwordRegexSignUp)
-          .message(
-            "must be at least nine characters long and contain an uppercase letter, a lowercase letter, a number and one of the following characters !@#$%^&*- "
-          ),
-        picture: Joi.string().allow("").label("Picture"),
-      });
+      const schema = createUserValidateSchema
 
       const { error } = schema.validate(values, { abortEarly: false });
 

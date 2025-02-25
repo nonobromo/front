@@ -10,7 +10,6 @@ import MainPage from "./pages/mainPage";
 import NavbarTest from "./components/navbarTest";
 import Logout from "./pages/logout";
 import About from "./pages/about";
-import CreateNewGuide from "./pages/uploadGuide";
 import UserPageInfo from "./pages/userPage";
 import TaskPageTest from "./components/common/taskPageTest";
 import Footer from "./components/footer";
@@ -18,6 +17,9 @@ import SkPage from "./pages/skPage";
 import Home from "./pages/home";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CreateNewTask from "./pages/uploadTask";
+import ShiftLeaderProtectedRoute from "./components/common/slProtectedRoute";
+import ShopKeerProtectedRoute from "./components/common/skProtectedRoute";
 
 const App = () => {
   return (
@@ -38,10 +40,14 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-out" element={<Logout />} />
         <Route path="/about" element={<About />} />
-        <Route path="/createGuide" element={<CreateNewGuide />} />
+        <Route path="/createTask" element={<ShiftLeaderProtectedRoute onlyShiftLeader>
+              <CreateNewTask/>
+             </ShiftLeaderProtectedRoute>} />
         <Route path="/userInfo/" element={<UserPageInfo />} />
         <Route path="/taskPage/:id" element={<TaskPageTest />} />
-        <Route path="/sk-page" element={<SkPage />} />
+        <Route path="/sk-page" element={<ShopKeerProtectedRoute onlyShiftLeader>
+          <SkPage/>
+        </ShopKeerProtectedRoute>} />
       </Routes>
       <Footer />
     </Box>

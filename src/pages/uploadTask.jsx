@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Button,
@@ -11,30 +10,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import Joi from "joi";
 import { uploadTask } from "../services/tasksService";
-import {CleaningServices, Print, Restore, Build} from '@mui/icons-material'
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { createTaskScehma, createTaskValues } from "../../schemas";
 
-function CreateNewGuide() {
+
+function CreateNewTask() {
+  const navigate = useNavigate()
   const taskForm = useFormik({
-    initialValues: {
-      title: "",
-      description: "",
-      dueDate: "",
-      priority: "Medium",
-      category: "Other",
-    },
+    initialValues: createTaskValues,
     validate(values) {
-      const schema = Joi.object({
-        title: Joi.string().min(2).max(255).required().label("Task Title"),
-        description: Joi.string().min(10).max(1024).required(),
-        priority: Joi.string().valid("Low", "Medium", "High").required(),
-        category: Joi.string()
-          .valid("Cleaning", "Recovery", "Printing", "Assembly", "Other")
-          .default("Other")
-          .required(),
-        dueDate: Joi.string().required().label("Due Date"),
-      });
+      const schema = createTaskScehma
 
       const { error } = schema.validate(values, { abortEarly: false });
 
@@ -50,8 +37,10 @@ function CreateNewGuide() {
     async onSubmit(values) {
       try {
         await uploadTask(values);
+        navigate("/tasks")
+        toast.success("Task Created")
       } catch (error) {
-        console.error("Error uploading new task:", error);
+        toast.error("Error Uploading Task")
       }
     },
   });
@@ -152,4 +141,4 @@ function CreateNewGuide() {
   );
 }
 
-export default CreateNewGuide;
+export default CreateNewTask;

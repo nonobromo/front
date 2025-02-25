@@ -25,7 +25,7 @@ function UsersManage() {
               onClick: () => toast.info("user not deleated"),
             },
           ],
-          overlayClassName: "overlay-custom-class", // Optional: custom CSS
+          overlayClassName: "overlay-custom-class", 
         });
       }
       
@@ -42,6 +42,7 @@ function UsersManage() {
       }
     };
     fetchAllUsers();
+    
   }, []);
 
   async function reFetchUsers(id) {

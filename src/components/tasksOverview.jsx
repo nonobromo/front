@@ -17,7 +17,7 @@ function TasksOverview(){
     
       const tasksByPriority = {
         low: allTasks.filter((task) => task.priority === "Low").length,
-        medium: allTasks.filter((task) => task.priorty === "Medium").length,
+        medium: allTasks.filter((task) => task.priority === "Medium").length,
         high: allTasks.filter((task) => task.priority === "High").length,
       };
 

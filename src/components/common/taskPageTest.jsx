@@ -27,9 +27,23 @@ import { toast } from "react-toastify";
 function TaskPageTest() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { taskById } = useTask(id);
+  const { taskById, refetch} = useTask(id);
   const { allUsersByName } = useAllUser();
   const [remarkText, setRemarkText] = useState("");
+
+
+  async function handleRemarkSubmit() {
+    try {
+      await addRemark(id, remarkText);
+      setRemarkText("");
+      toast.success("Remark added successfully");
+      refetch();
+    } catch {
+      toast.error("Failed to add remark");
+    }
+  }
+  
+  
 
   async function markTaskAsComplete(id) {
     try {
@@ -102,6 +116,8 @@ function TaskPageTest() {
         assignedTo: taskById.assignedTo || { user_id: "", name: "" },
       });
     }
+
+
   }, [taskById]);
 
   return (
@@ -261,7 +277,7 @@ function TaskPageTest() {
           onChange={(e) => setRemarkText(e.target.value)}
         />
         <Button
-          onClick={() => addRemark(id, remarkText)}
+          onClick={handleRemarkSubmit}
           sx={{ marginTop: "12px", marginBottom: "12px" }}
           variant="contained"
           color="primary"
@@ -272,8 +288,8 @@ function TaskPageTest() {
 
       <Container maxWidth="md" sx={{ paddingBottom: "20px" }}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {taskById.remarks?.length > 0 ? (
-            taskById.remarks.map((remark, index) => (
+          {taskById?.remarks?.length > 0 ? (
+            taskById?.remarks.map((remark, index) => (
               <Remark remark={remark} key={index} />
             ))
           ) : (
