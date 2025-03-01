@@ -21,11 +21,11 @@ function TaskItem({
   const month = reversedCreatedDate[0].padStart(2, "0");
   const year = reversedCreatedDate[2];
 
-  const formattedCreatedDate = `${day}/${month}/${year}`;
+
   const reversedDueDate = [dueDate][0].split("-").reverse().join("/");
 
   return (
-    <Container maxWidth={false} sx={{maxWidth: "1400px"}}>
+    <Container maxWidth={false} sx={{maxWidth: "1400px",  borderBottom: "1px solid #dbdbdb", padding: "5px"}}>
       <Link
         to={`/taskPage/${_id}`}
         style={{ textDecoration: "none", color: "inherit" }}
@@ -36,7 +36,7 @@ function TaskItem({
             <span className="table-data-title">{title}</span>
             <span className="hide-on-small">{createdBy.name}</span>
             <span className="table-data-assignedToo hide-on-small">{assignedTo.name}</span>
-            <span className="hide-on-small">{formattedCreatedDate}</span>
+            <span className="hide-on-small">{dateCreated}</span>
             <span className="table-date-due">{reversedDueDate}</span>
             <span className="hide-on-small">
               <CategoryIcon category={category} />

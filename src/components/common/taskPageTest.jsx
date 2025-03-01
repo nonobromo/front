@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import Joi from "joi";
+
 
 import {
   editTask,
@@ -23,6 +23,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAllUser from "../../hooks/getAllUsers";
 import Remark from "./remark";
 import { toast } from "react-toastify";
+import PrioritySelect from "./prioritySelect";
+import CategorySelect from "./categorySelect";
+import { editTaskSchema, editTaskValues } from "../../../schemas";
+import { useAuth } from "../../context/auth.context";
 
 function TaskPageTest() {
   const { id } = useParams();
@@ -30,7 +34,7 @@ function TaskPageTest() {
   const { taskById, refetch} = useTask(id);
   const { allUsersByName } = useAllUser();
   const [remarkText, setRemarkText] = useState("");
-
+  const {user} = useAuth()
 
   async function handleRemarkSubmit() {
     try {
@@ -58,32 +62,9 @@ function TaskPageTest() {
   }
 
   const taskEditForm = useFormik({
-    initialValues: {
-      title: "",
-      description: "",
-      dueDate: "",
-      priority: "Medium",
-      category: "Other",
-      assignedTo: {
-        user_id: "",
-        name: "",
-      },
-    },
+    initialValues: editTaskValues,
     validate(values) {
-      const schema = Joi.object({
-        title: Joi.string().min(2).max(255).required().label("Task Title"),
-        description: Joi.string().min(10).max(1024).required(),
-        priority: Joi.string().valid("Low", "Medium", "High").required(),
-        category: Joi.string()
-          .valid("Cleaning", "Recovery", "Printing", "Assembly", "Other")
-          .default("Other")
-          .required(),
-        dueDate: Joi.string().required().label("Due Date"),
-        assignedTo: Joi.object({
-          user_id: Joi.string().allow(""),
-          name: Joi.string().allow(""),
-        }).label("Assigned To"),
-      });
+      const schema = editTaskSchema
 
       const { error } = schema.validate(values, { abortEarly: false });
 
@@ -126,6 +107,8 @@ function TaskPageTest() {
         Task overview
       </Typography>
 
+
+      <Box sx={{display: "flex", flexDirection: "row", gap: 2}}>
       <Button
         color="success"
         variant="contained"
@@ -134,6 +117,10 @@ function TaskPageTest() {
         {taskById.complete ? "Mark as uncomplete" : "Mark as complete"}
       </Button>
 
+      {user?.shopKeeper && <Button color="error" variant="contained">
+        Delete Task
+      </Button>}
+      </Box>
       <Box
         component="form"
         onSubmit={taskEditForm.handleSubmit}
@@ -172,47 +159,18 @@ function TaskPageTest() {
             gap: 2,
           }}
         >
-          <Box sx={{ flex: 1 }}>
-            <InputLabel>Priority</InputLabel>
-            <Select
-              fullWidth
-              {...taskEditForm.getFieldProps("priority")}
-              value={taskEditForm.values.priority || "Medium"}
-              displayEmpty
-              error={
-                taskEditForm.touched.priority && taskEditForm.errors.priority
-              }
-            >
-              <MenuItem disabled value="">
-                Select a Priority
-              </MenuItem>
-              <MenuItem value="Low">Low</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
-              <MenuItem value="High">High</MenuItem>
-            </Select>
-          </Box>
+          <PrioritySelect
+  value={taskEditForm.values.priority || "Medium"}
+  onChange={(e) => taskEditForm.setFieldValue("priority", e.target.value)}
+  error={taskEditForm.touched.priority && taskEditForm.errors.priority}
+/>
 
-          <Box sx={{ flex: 1 }}>
-            <InputLabel>Category</InputLabel>
-            <Select
-              fullWidth
-              {...taskEditForm.getFieldProps("category")}
-              value={taskEditForm.values.category || "Other"}
-              displayEmpty
-              error={
-                taskEditForm.touched.category && taskEditForm.errors.category
-              }
-            >
-              <MenuItem disabled value="">
-                Select a Category
-              </MenuItem>
-              <MenuItem value="Cleaning">Cleaning</MenuItem>
-              <MenuItem value="Recovery">Recovery</MenuItem>
-              <MenuItem value="Printing">Printing</MenuItem>
-              <MenuItem value="Assembly">Assembly</MenuItem>
-              <MenuItem value="Other">Other</MenuItem>
-            </Select>
-          </Box>
+<CategorySelect
+  value={taskEditForm.values.category || "Other"}
+  onChange={(e) => taskEditForm.setFieldValue("category", e.target.value)}
+  error={taskEditForm.touched.category && taskEditForm.errors.category}
+/>
+
         </Box>
 
         <Box sx={{ display: "flex", gap: 2 }}>

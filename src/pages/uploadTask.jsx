@@ -4,8 +4,6 @@ import {
   Container,
   Input,
   InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -14,6 +12,8 @@ import { uploadTask } from "../services/tasksService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createTaskScehma, createTaskValues } from "../../schemas";
+import CategorySelect from "../components/common/categorySelect";
+import PrioritySelect from "../components/common/prioritySelect";
 
 
 function CreateNewTask() {
@@ -68,6 +68,7 @@ function CreateNewTask() {
           required
           {...taskForm.getFieldProps("title")}
           error={taskForm.touched.title && taskForm.errors.title}
+          helperText={taskForm.touched.title && taskForm.errors.title}
         />
         <TextField
           label="Task Description"
@@ -77,6 +78,7 @@ function CreateNewTask() {
           rows={5}
           {...taskForm.getFieldProps("description")}
           error={taskForm.touched.description && taskForm.errors.description}
+          helperText={taskForm.touched.description && taskForm.errors.description}
         />
 
         <Box
@@ -85,43 +87,20 @@ function CreateNewTask() {
             gap: 2,
           }}
         >
-          <Box sx={{ flex: 1 }}>
-            <InputLabel>Priority</InputLabel>
-            <Select
-              fullWidth
-              {...taskForm.getFieldProps("priority")}
-              value={taskForm.values.priority || "Medium"}
-              displayEmpty
-              error={taskForm.touched.priority && taskForm.errors.priority}
-            >
-              <MenuItem disabled value="">
-                Select a Priority
-              </MenuItem>
-              <MenuItem value="Low">Low</MenuItem>
-              <MenuItem value="Medium">Medium</MenuItem>
-              <MenuItem value="High">High</MenuItem>
-            </Select>
-          </Box>
 
-          <Box sx={{ flex: 1 }}>
-            <InputLabel>Category</InputLabel>
-            <Select
-              fullWidth
-              {...taskForm.getFieldProps("category")}
-              value={taskForm.values.category || "Other"}
-              displayEmpty
-              error={taskForm.touched.category && taskForm.errors.category}
-            >
-              <MenuItem disabled value="">
-                Select a Category
-              </MenuItem>
-              <MenuItem value="Cleaning">Cleaning</MenuItem>
-              <MenuItem value="Recovery">Recovery</MenuItem>
-              <MenuItem value="Printing">Printing</MenuItem>
-              <MenuItem value="Assembly">Assembly</MenuItem>
-              <MenuItem value="Other">Other</MenuItem>
-            </Select>
-          </Box>
+<PrioritySelect
+  value={taskForm.values.priority || "Medium"}
+  onChange={(e) => taskForm.setFieldValue("priority", e.target.value)}
+  error={taskForm.touched.priority && taskForm.errors.priority}
+  
+/>
+
+<CategorySelect
+  value={taskForm.values.category || "Other"}
+  onChange={(e) => taskForm.setFieldValue("category", e.target.value)}
+  error={taskForm.touched.category && taskForm.errors.category}
+/>
+          
         </Box>
         <InputLabel>Due Date</InputLabel>
         <Input
@@ -132,6 +111,7 @@ function CreateNewTask() {
           {...taskForm.getFieldProps("dueDate")}
           error={taskForm.touched.dueDate && taskForm.errors.dueDate}
         />
+        {(taskForm.touched.dueDate && taskForm.errors.dueDate) && <Typography sx={{color: "red"}}>Please enter a date</Typography>}
 
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Submit

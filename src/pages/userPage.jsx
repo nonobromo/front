@@ -5,6 +5,7 @@ import {
   Container,
   Input,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useAuth } from "../context/auth.context";
 import useUser from "../hooks/getUser";
@@ -12,10 +13,13 @@ import { useFormik } from "formik";
 import Joi from "joi";
 import { updateUserInfo, updateProfilePicture } from "../services/usersService";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 function UserPageInfo() {
   const { user } = useAuth();
   const { userInfo } = useUser(user._id);
+
+  const altName = `${userInfo?.name?.first[0]}${userInfo?.name?.last[0]}`
 
   const editUserInfoForm = useFormik({
     initialValues: {
@@ -71,14 +75,16 @@ function UserPageInfo() {
 
     try {
       const response = await updateProfilePicture(user._id, file);
-      console.log("Upload success:", response.data);
+      toast.success("Picutre Updated!")
     } catch (error) {
-      console.error("Upload failed:", error.response?.data || error.message);
+      toast.error("Failed to update Picture")
     }
   };
 
   return (
     <Container maxWidth="xs">
+
+      <Typography variant="h1" sx={{fontSize: "48px", marginTop: "12px"}}>Personal Info</Typography>
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column", marginTop: 4, gap: 2 }}
@@ -113,14 +119,17 @@ function UserPageInfo() {
             flexDirection: "column",
           }}
         >
+          <Typography  sx={{ width: "100%", marginBottom: "12px"}}>Change your profile Picture</Typography>
+
           <Avatar
             sx={{ width: 100, height: 100, objectFit: "cover" }}
             src={userInfo?.picture}
+            alt={altName}
           />
 
           <Input
             type="file"
-            sx={{ marginTop: "24px" }}
+            sx={{ marginTop: "24px", marginBottom: "24px" }}
             onChange={handleFileUpload}
           />
         </Container>

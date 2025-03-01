@@ -16,6 +16,10 @@ export default function NavbarTest() {
   const [pictureMenu, openPictureMenu] = useState(false);
   const [hamburger, setHamburger] = useState(false);
 
+  
+  const altName = `${userInfo?.name?.first[0]}${userInfo?.name?.last[0]}`
+
+
   const handleOpen = () => {
     openPictureMenu((perv) => !perv);
   };
@@ -95,7 +99,7 @@ export default function NavbarTest() {
             {user ? (
               <div onMouseEnter={handleOpen} onMouseLeave={handleOpen}>
                 <Avatar
-                  alt="User Name"
+                  alt={altName}
                   src={userInfo?.picture}
                   sx={{ width: 50, height: 50, objectFit: "cover" }}
                 />

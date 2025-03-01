@@ -47,3 +47,30 @@ export const createUserValidateSchema = Joi.object({
             .required(),
           dueDate: Joi.string().required().label("Due Date"),
         });
+
+export const editTaskValues ={
+  title: "",
+  description: "",
+  dueDate: "",
+  priority: "Medium",
+  category: "Other",
+  assignedTo: {
+    user_id: "",
+    name: "",
+  },
+}
+
+export const editTaskSchema = Joi.object({
+        title: Joi.string().min(2).max(255).required().label("Task Title"),
+        description: Joi.string().min(10).max(1024).required(),
+        priority: Joi.string().valid("Low", "Medium", "High").required(),
+        category: Joi.string()
+          .valid("Cleaning", "Recovery", "Printing", "Assembly", "Other")
+          .default("Other")
+          .required(),
+        dueDate: Joi.string().required().label("Due Date"),
+        assignedTo: Joi.object({
+          user_id: Joi.string().allow(null,""),
+          name: Joi.string().allow(null,""),
+        }).label("Assigned To"),
+      });
