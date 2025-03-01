@@ -9,6 +9,7 @@ import useUser from "../hooks/getUser";
 import { Avatar } from "@mui/material";
 import { useState } from "react";
 import { Checklist } from "@mui/icons-material";
+import Logo from "./common/logo";
 
 export default function NavbarTest() {
   const { user } = useAuth();
@@ -16,9 +17,7 @@ export default function NavbarTest() {
   const [pictureMenu, openPictureMenu] = useState(false);
   const [hamburger, setHamburger] = useState(false);
 
-  
-  const altName = `${userInfo?.name?.first[0]}${userInfo?.name?.last[0]}`
-
+  const altName = `${userInfo?.name?.first[0]}${userInfo?.name?.last[0]}`;
 
   const handleOpen = () => {
     openPictureMenu((perv) => !perv);
@@ -58,18 +57,7 @@ export default function NavbarTest() {
               <span className="bar"></span>
             </div>
             <Link to="/" className="navbar-brand">
-              <Typography
-                variant="h4"
-                component="div"
-                sx={{
-                  flexGrow: 1,
-                  marginLeft: "12px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                Basic <Checklist fontSize="35px" />
-              </Typography>
+              <Logo />
             </Link>
             <div className={`navbar-content ${hamburger ? "active" : ""}`}>
               {user && (

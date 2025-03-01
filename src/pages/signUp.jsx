@@ -20,7 +20,7 @@ const SignUp = () => {
   const userForm = useFormik({
     initialValues: createUserValues,
     validate(values) {
-      const schema = createUserValidateSchema
+      const schema = createUserValidateSchema;
 
       const { error } = schema.validate(values, { abortEarly: false });
 
@@ -39,7 +39,7 @@ const SignUp = () => {
         navigate("/sign-in");
         toast.success("Signed Up!");
       } catch (er) {
-        console.log(er);
+        toast.error("Failed to sign up");
       }
     },
   });

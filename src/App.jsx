@@ -11,7 +11,7 @@ import NavbarTest from "./components/navbarTest";
 import Logout from "./pages/logout";
 import About from "./pages/about";
 import UserPageInfo from "./pages/userPage";
-import TaskPageTest from "./components/common/taskPageTest";
+import TaskPage from "./components/common/taskPage";
 import Footer from "./components/footer";
 import SkPage from "./pages/skPage";
 import Home from "./pages/home";
@@ -40,14 +40,24 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-out" element={<Logout />} />
         <Route path="/about" element={<About />} />
-        <Route path="/createTask" element={<ShiftLeaderProtectedRoute onlyShiftLeader>
-              <CreateNewTask/>
-             </ShiftLeaderProtectedRoute>} />
+        <Route
+          path="/createTask"
+          element={
+            <ShiftLeaderProtectedRoute onlyShiftLeader>
+              <CreateNewTask />
+            </ShiftLeaderProtectedRoute>
+          }
+        />
         <Route path="/userInfo/" element={<UserPageInfo />} />
-        <Route path="/taskPage/:id" element={<TaskPageTest />} />
-        <Route path="/sk-page" element={<ShopKeerProtectedRoute onlyShiftLeader>
-          <SkPage/>
-        </ShopKeerProtectedRoute>} />
+        <Route path="/taskPage/:id" element={<TaskPage />} />
+        <Route
+          path="/sk-page"
+          element={
+            <ShopKeerProtectedRoute onlyShiftLeader>
+              <SkPage />
+            </ShopKeerProtectedRoute>
+          }
+        />
       </Routes>
       <Footer />
     </Box>

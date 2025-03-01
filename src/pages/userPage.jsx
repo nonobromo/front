@@ -19,7 +19,7 @@ function UserPageInfo() {
   const { user } = useAuth();
   const { userInfo } = useUser(user._id);
 
-  const altName = `${userInfo?.name?.first[0]}${userInfo?.name?.last[0]}`
+  const altName = `${userInfo?.name?.first[0]}${userInfo?.name?.last[0]}`;
 
   const editUserInfoForm = useFormik({
     initialValues: {
@@ -51,8 +51,9 @@ function UserPageInfo() {
     async onSubmit(values) {
       try {
         await updateUserInfo(user._id, values);
+        toast.success("Info updated!");
       } catch (err) {
-        console.log(err);
+        toast.error("Failed to update info");
       }
     },
   });
@@ -75,16 +76,17 @@ function UserPageInfo() {
 
     try {
       const response = await updateProfilePicture(user._id, file);
-      toast.success("Picutre Updated!")
+      toast.success("Picutre Updated!");
     } catch (error) {
-      toast.error("Failed to update Picture")
+      toast.error("Failed to update Picture");
     }
   };
 
   return (
     <Container maxWidth="xs">
-
-      <Typography variant="h1" sx={{fontSize: "48px", marginTop: "12px"}}>Personal Info</Typography>
+      <Typography variant="h1" sx={{ fontSize: "48px", marginTop: "12px" }}>
+        Personal Info
+      </Typography>
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column", marginTop: 4, gap: 2 }}
@@ -119,7 +121,9 @@ function UserPageInfo() {
             flexDirection: "column",
           }}
         >
-          <Typography  sx={{ width: "100%", marginBottom: "12px"}}>Change your profile Picture</Typography>
+          <Typography sx={{ width: "100%", marginBottom: "12px" }}>
+            Change your profile Picture
+          </Typography>
 
           <Avatar
             sx={{ width: 100, height: 100, objectFit: "cover" }}

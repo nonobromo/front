@@ -11,22 +11,19 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import InsightsIcon from "@mui/icons-material/Insights";
+import Logo from "../components/common/logo";
 
 export default function AboutPage() {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        About Basic
+      <Typography variant="h4" gutterBottom sx={{ display: "flex", gap: 2 }}>
+        About <Logo />
       </Typography>
       <Typography variant="body1">
-        <strong>Basic</strong> is IKEA's custom-built CRM app designed to
-        enhance task management and coordination across the{" "}
-        <strong>Showroom (Upper Floor)</strong> and{" "}
-        <strong>Markethall (Lower Floor)</strong>. It enables{" "}
-        <strong>Shift Leaders</strong> and <strong>Shopkeepers</strong> to
-        efficiently assign and track tasks, ensuring seamless operations and
-        improved teamwork.
+        <strong>Basic</strong> is a task management app built to improve daily
+        operations in retail and warehouse environments. It helps Shift Leaders
+        and Shopkeepers efficiently assign, track, and complete tasks, ensuring
+        smoother workflows and better team coordination.
       </Typography>
 
       <Divider sx={{ my: 2 }} />
@@ -41,7 +38,7 @@ export default function AboutPage() {
           </ListItemIcon>
           <ListItemText
             primary="Task Management"
-            secondary="Create, assign, and complete tasks with priority levels: Low, Medium, and High."
+            secondary="Create, assign, and track tasks with priority levels: Low, Medium, and High."
           />
         </ListItem>
         <ListItem>
@@ -50,7 +47,7 @@ export default function AboutPage() {
           </ListItemIcon>
           <ListItemText
             primary="Task Categories"
-            secondary="Tasks include Assembling Furniture, Cleaning, Printing, and Recovery Transport."
+            secondary="Organize tasks into categories like Recovery, Cleaning, Printing, and Assembly."
           />
         </ListItem>
         <ListItem>
@@ -58,8 +55,8 @@ export default function AboutPage() {
             <CheckCircleIcon />
           </ListItemIcon>
           <ListItemText
-            primary="Remarks Section"
-            secondary="Users can add and edit comments on tasks for better collaboration."
+            primary="Remarks & Collaboration"
+            secondary="Team members can leave comments on tasks to improve communication."
           />
         </ListItem>
       </List>
@@ -76,7 +73,7 @@ export default function AboutPage() {
           </ListItemIcon>
           <ListItemText
             primary="Co-Worker"
-            secondary="Views assigned tasks and can assign tasks to themselves. This helps track how often co-workers see available tasks and if they take the initiative to complete them."
+            secondary="Views assigned tasks and can assign tasks to themselves, allowing them to take initiative."
           />
         </ListItem>
         <ListItem>
@@ -85,7 +82,7 @@ export default function AboutPage() {
           </ListItemIcon>
           <ListItemText
             primary="Shift Leader"
-            secondary="Creates and assigns tasks to themselves or others."
+            secondary="Creates and assigns tasks to themselves or other team members."
           />
         </ListItem>
         <ListItem>
@@ -94,14 +91,14 @@ export default function AboutPage() {
           </ListItemIcon>
           <ListItemText
             primary="Shopkeeper"
-            secondary="Has access to the Shopkeeper Dashboard, where they can mark tasks as uncompleted, modify Shift Leader status, and delete users."
+            secondary="Oversees task management, modifies Shift Leader status, and manages users."
           />
         </ListItem>
       </List>
 
       <Typography variant="body2" sx={{ mt: 3 }}>
-        With <strong>Basic</strong>, managing daily tasks at IKEA has never been
-        easier, keeping teams aligned and operations running smoothly. 🚀
+        <strong>Basic</strong> is designed to keep teams organized and tasks on
+        track—making daily operations smoother and more efficient. 🚀
       </Typography>
     </Container>
   );

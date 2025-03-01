@@ -5,7 +5,7 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        mt: "auto", 
+        mt: "auto",
         width: "100%",
         py: 1,
         textAlign: "center",
@@ -13,10 +13,13 @@ const Footer = () => {
         color: "text.primary",
         borderTop: "1px solid",
         borderColor: "divider",
-        backgroundColor: "#1975d0"
+        backgroundColor: "#1975d0",
       }}
     >
-      <Typography variant="body2"> {new Date().getFullYear()} Basic© CRM App</Typography>
+      <Typography variant="body2">
+        {" "}
+        {new Date().getFullYear()} Basic© CRM App
+      </Typography>
     </Box>
   );
 };

@@ -87,7 +87,7 @@ input.search-box::placeholder {
 
 @media screen and (max-width: 768px) {
   .task-filter-btn {
-    padding: 8px 6px 8px 6px;
+    padding: 4px;
   }
 
   .search-box {

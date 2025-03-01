@@ -2,35 +2,42 @@ import { Box, Container, Typography, IconButton } from "@mui/material";
 import { getAllSystemUsers } from "../services/usersService";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import {patchSlStatus, deleteUser} from "../services/usersService"
+import { patchSlStatus, deleteUser } from "../services/usersService";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import {confirmAlert} from "react-confirm-alert"
-import "react-confirm-alert/src/react-confirm-alert.css"; 
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 function UsersManage() {
-
-
-    function handleDelete(id) {
-        confirmAlert({
-          title: "Confirm to delete",
-          message: "Are you sure you want to delete this User?",
-          buttons: [
-            {
-              label: "Yes",
-              onClick: async () => await deleteUser(id)
-            },
-            {
-              label: "No",
-              onClick: () => toast.info("user not deleated"),
-            },
-          ],
-          overlayClassName: "overlay-custom-class", 
-        });
-      }
-      
-
   const [users, setAllUsers] = useState([]);
+  async function handleDelete(id) {
+    confirmAlert({
+      title: "Confirm to delete",
+      message: "Are you sure you want to delete this user?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+            try {
+              await deleteUser(id);
+              toast.success("User deleted successfully");
+
+              setAllUsers((prevUsers) =>
+                prevUsers.filter((user) => user._id !== id)
+              );
+            } catch (error) {
+              toast.error("Failed to delete user");
+            }
+          },
+        },
+        {
+          label: "No",
+          onClick: () => toast.info("User not deleted"),
+        },
+      ],
+      overlayClassName: "overlay-custom-class",
+    });
+  }
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -42,15 +49,14 @@ function UsersManage() {
       }
     };
     fetchAllUsers();
-    
   }, []);
 
   async function reFetchUsers(id) {
     try {
-      await patchSlStatus(id); 
-      const { data } = await getAllSystemUsers(); 
-      setAllUsers(data); 
-      toast.success("Shift Leader Status Changed")
+      await patchSlStatus(id);
+      const { data } = await getAllSystemUsers();
+      setAllUsers(data);
+      toast.success("Shift Leader Status Changed");
     } catch (err) {
       toast.error("Failed to update SL status");
     }
@@ -58,7 +64,11 @@ function UsersManage() {
 
   return (
     <Container maxWidth={false} sx={{ maxWidth: "1400px", marginTop: 4 }}>
-      <Typography variant="h2" gutterBottom>
+      <Typography
+        variant="h2"
+        gutterBottom
+        sx={{ fontSize: { xs: 36, lg: 48 } }}
+      >
         Manage Users
       </Typography>
       <div className="users-grid">
@@ -73,7 +83,7 @@ function UsersManage() {
               boxShadow: 1,
               alignItems: "center",
               gap: 2,
-              minHeight: 80, 
+              minHeight: 80,
               justifyContent: "space-between",
             }}
           >
@@ -86,10 +96,18 @@ function UsersManage() {
               </Typography>
             </div>
             <div>
-              <IconButton color="error" aria-label="delete user" onClick={() => handleDelete(user._id)}>
+              <IconButton
+                color="error"
+                aria-label="delete user"
+                onClick={() => handleDelete(user._id)}
+              >
                 <DeleteIcon />
               </IconButton>
-              <IconButton color="primary" aria-label="change role" onClick={() => reFetchUsers(user._id)}>
+              <IconButton
+                color="primary"
+                aria-label="change role"
+                onClick={() => reFetchUsers(user._id)}
+              >
                 <SwapHorizIcon />
               </IconButton>
             </div>

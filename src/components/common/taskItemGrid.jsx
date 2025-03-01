@@ -18,7 +18,6 @@ function ListItemGrid({ taskData }) {
     _id,
   } = taskData;
 
-
   const createdDateParts = dateCreated?.split("/") || [];
   const formattedCreatedDate =
     createdDateParts.length === 3
@@ -27,7 +26,6 @@ function ListItemGrid({ taskData }) {
           "0"
         )}/${createdDateParts[2]}`
       : dateCreated;
-
 
   const formattedDueDate = dueDate?.split("-").reverse().join("/") || dueDate;
 
@@ -60,7 +58,7 @@ function ListItemGrid({ taskData }) {
           Created by: {createdBy?.name || "N/A"}
         </Typography>
         <Typography variant="body2">
-          Assigned to: {assignedTo?.name || "N/A"}
+          Assigned to: {assignedTo?.name || ""}
         </Typography>
         <Priority priority={priority} />
         <CategoryIcon category={category} />

@@ -44,7 +44,11 @@ function MainPage() {
         marginBottom: 8,
       }}
     >
-      <Typography fontSize="4rem" variant="h1" mt={4}>
+      <Typography
+        sx={{ mt: 4, fontSize: { xs: 36, lg: 48 } }}
+        variant="h1"
+        mt={4}
+      >
         It's time to do some Basic
       </Typography>
 

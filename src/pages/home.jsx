@@ -31,12 +31,12 @@ function Home() {
   };
   return (
     <Container maxWidth="lg">
-      <Typography fontSize={56} mt={4} variant="h1">
+      <Typography sx={{ mt: 4, fontSize: { xs: 32, lg: 56 } }} variant="h1">
         {user
           ? `Welcome back to Basic ${user && fullName}`
           : "Welcome To Basic"}
       </Typography>
-      <Typography fontSize={36} mt={2} variant="h2">
+      <Typography sx={{ mt: 2, fontSize: { xs: 24, lg: 36 } }} variant="h2">
         Its time to do some basic.{" "}
         {user ? "Head over to the tasks page" : "Login to see your tasks"}
       </Typography>
@@ -52,7 +52,14 @@ function Home() {
             borderRadius: 2,
           }}
         >
-          <Typography variant="h3" mt={4} gridColumn="span 2">
+          <Typography
+            variant="h3"
+            sx={{
+              mt: 4,
+              gridColumn: "span 2",
+              fontSize: { xs: "32px", lg: "48px" },
+            }}
+          >
             Tasks Overview
           </Typography>
 

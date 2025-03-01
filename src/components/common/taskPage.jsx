@@ -11,12 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 import {
   editTask,
   addRemark,
   markAsComplete,
+  deleteTask,
 } from "../../services/tasksService";
 import useTask from "../../hooks/getTask";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,13 +30,13 @@ import CategorySelect from "./categorySelect";
 import { editTaskSchema, editTaskValues } from "../../../schemas";
 import { useAuth } from "../../context/auth.context";
 
-function TaskPageTest() {
+function TaskPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { taskById, refetch} = useTask(id);
+  const { taskById, refetch } = useTask(id);
   const { allUsersByName } = useAllUser();
   const [remarkText, setRemarkText] = useState("");
-  const {user} = useAuth()
+  const { user } = useAuth();
 
   async function handleRemarkSubmit() {
     try {
@@ -43,11 +45,9 @@ function TaskPageTest() {
       toast.success("Remark added successfully");
       refetch();
     } catch {
-      toast.error("Failed to add remark");
+      toast.error("Remark cant be empty");
     }
   }
-  
-  
 
   async function markTaskAsComplete(id) {
     try {
@@ -61,10 +61,36 @@ function TaskPageTest() {
     }
   }
 
+  async function handleDeleteTask(id) {
+    confirmAlert({
+      title: "Confirm to delete",
+      message: "Are you sure you want to delete this task?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: async () => {
+            try {
+              await deleteTask(id);
+              toast.success("Task deleted successfully");
+              navigate("/tasks");
+            } catch (error) {
+              toast.error("Failed to delete task");
+            }
+          },
+        },
+        {
+          label: "No",
+          onClick: () => toast.info("Task not deleted"),
+        },
+      ],
+      overlayClassName: "overlay-custom-class",
+    });
+  }
+
   const taskEditForm = useFormik({
     initialValues: editTaskValues,
     validate(values) {
-      const schema = editTaskSchema
+      const schema = editTaskSchema;
 
       const { error } = schema.validate(values, { abortEarly: false });
 
@@ -80,6 +106,7 @@ function TaskPageTest() {
     async onSubmit(values) {
       try {
         await editTask(id, values);
+        toast.success("Changes Submitted");
       } catch (error) {
         toast.error(error);
       }
@@ -97,8 +124,6 @@ function TaskPageTest() {
         assignedTo: taskById.assignedTo || { user_id: "", name: "" },
       });
     }
-
-
   }, [taskById]);
 
   return (
@@ -107,19 +132,24 @@ function TaskPageTest() {
         Task overview
       </Typography>
 
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+        <Button
+          color="success"
+          variant="contained"
+          onClick={() => markTaskAsComplete(id)}
+        >
+          {taskById.complete ? "Mark as uncomplete" : "Mark as complete"}
+        </Button>
 
-      <Box sx={{display: "flex", flexDirection: "row", gap: 2}}>
-      <Button
-        color="success"
-        variant="contained"
-        onClick={() => markTaskAsComplete(id)}
-      >
-        {taskById.complete ? "Mark as uncomplete" : "Mark as complete"}
-      </Button>
-
-      {user?.shopKeeper && <Button color="error" variant="contained">
-        Delete Task
-      </Button>}
+        {user?.shopKeeper && (
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => handleDeleteTask(taskById._id)}
+          >
+            Delete Task
+          </Button>
+        )}
       </Box>
       <Box
         component="form"
@@ -160,20 +190,33 @@ function TaskPageTest() {
           }}
         >
           <PrioritySelect
-  value={taskEditForm.values.priority || "Medium"}
-  onChange={(e) => taskEditForm.setFieldValue("priority", e.target.value)}
-  error={taskEditForm.touched.priority && taskEditForm.errors.priority}
-/>
+            value={taskEditForm.values.priority || "Medium"}
+            onChange={(e) =>
+              taskEditForm.setFieldValue("priority", e.target.value)
+            }
+            error={
+              taskEditForm.touched.priority && taskEditForm.errors.priority
+            }
+          />
 
-<CategorySelect
-  value={taskEditForm.values.category || "Other"}
-  onChange={(e) => taskEditForm.setFieldValue("category", e.target.value)}
-  error={taskEditForm.touched.category && taskEditForm.errors.category}
-/>
-
+          <CategorySelect
+            value={taskEditForm.values.category || "Other"}
+            onChange={(e) =>
+              taskEditForm.setFieldValue("category", e.target.value)
+            }
+            error={
+              taskEditForm.touched.category && taskEditForm.errors.category
+            }
+          />
         </Box>
 
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            flexDirection: { xs: "column", sm: "row", md: "row" },
+          }}
+        >
           <Box sx={{ flex: 1 }}>
             <InputLabel sx={{ marginBottom: 1 }}>Due Date</InputLabel>
             <Input
@@ -187,6 +230,7 @@ function TaskPageTest() {
               }
             />
           </Box>
+
           <Box sx={{ flex: 1 }}>
             <InputLabel sx={{ marginBottom: 1 }}>Assigned to</InputLabel>
             <Select
@@ -261,4 +305,4 @@ function TaskPageTest() {
   );
 }
 
-export default TaskPageTest;
+export default TaskPage;

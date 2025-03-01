@@ -20,6 +20,7 @@
 
   .hamburger {
     display: block;
+    margin-right: 8px;
   }
 
   .hamburger.active .bar:nth-child(2) {
@@ -44,6 +45,7 @@
     background-color: #1976d2;
     width: 100%;
     transition: 0.5s;
+    z-index: 9000;
   }
 
   .navbar-content.active {
