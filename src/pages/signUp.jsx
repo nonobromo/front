@@ -6,6 +6,7 @@ import {
   Typography,
   Container,
   Input,
+  InputLabel,
 } from "@mui/material";
 
 import { createUser } from "../services/usersService";
@@ -133,6 +134,9 @@ const SignUp = () => {
               userForm.touched.password && userForm.errors["password"]
             }
           />
+          <InputLabel>
+          Upload a profile picture
+          </InputLabel>
           <Input
             {...userForm.getFieldProps("picture")}
             type="file"
