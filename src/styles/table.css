@@ -23,6 +23,11 @@
   margin-top: 15px;
 }
 
+.table-data:hover{
+  background-color: #e3f2fd   ;
+  transition: 400ms;
+}
+
 .table-data-title {
   grid-column: 1/3;
 }
